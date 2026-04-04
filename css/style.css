@@ -518,3 +518,135 @@ ul    { list-style: none; }
   font-weight: 600;
   color: var(--text);
 }
+
+/* ═══ LOGIN TABS ═════════════════════════════════════════ */
+.login-tabs {
+  display: flex; gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.login-tab {
+  flex: 1; padding: 10px 0;
+  background: var(--bg); border: none;
+  color: var(--muted); font-size: 14px; font-weight: 600;
+  font-family: var(--sans); cursor: pointer;
+  transition: all var(--sp);
+}
+.login-tab:first-child { border-right: 1px solid var(--border); }
+.login-tab.active {
+  background: var(--card-hover);
+  color: var(--bright);
+}
+.login-tab:hover:not(.active) { color: var(--text); }
+
+.login-footer {
+  margin-top: 24px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.login-footer p {
+  font-size: 11px; color: var(--muted);
+  margin-bottom: 8px;
+}
+.login-footer a {
+  font-size: 13px; color: var(--muted);
+  transition: color var(--sp);
+}
+.login-footer a:hover { color: var(--bright); }
+
+/* ═══ PRIVACY TIPS ═══════════════════════════════════════ */
+.privacy-tips {
+  display: flex; flex-direction: column;
+  gap: 10px; margin-bottom: 20px;
+}
+.privacy-tip {
+  display: flex; align-items: start; gap: 12px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 12px 14px;
+  text-align: left;
+}
+.privacy-tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.privacy-tip strong {
+  font-size: 13px; color: var(--bright);
+  display: block; margin-bottom: 2px;
+}
+.privacy-tip p {
+  font-size: 12px; color: var(--muted);
+  margin: 0; line-height: 1.5;
+}
+.privacy-tip a { color: var(--bright); text-decoration: underline; }
+
+/* ═══ APP CODE PANEL ═════════════════════════════════════ */
+.app-code-panel {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 28px;
+  max-width: 480px;
+}
+.app-code-display {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px;
+  text-align: center; margin-bottom: 16px;
+  min-height: 72px; display: flex;
+  align-items: center; justify-content: center;
+}
+.app-code-value {
+  font-size: 24px; font-weight: 800;
+  letter-spacing: 4px; color: var(--bright);
+  font-family: var(--mono);
+}
+.app-code-placeholder { font-size: 14px; color: var(--muted); }
+.app-code-sent { font-size: 14px; color: var(--bright); font-weight: 600; }
+.app-code-error { font-size: 13px; color: #d9534f; }
+
+.app-code-info { margin-bottom: 16px; text-align: center; }
+.app-code-timer {
+  font-size: 13px; color: var(--text); margin-bottom: 4px;
+}
+.app-code-warning {
+  font-size: 12px; color: #d9534f; font-weight: 500;
+}
+
+/* ═══ STAFF MANAGEMENT ═══════════════════════════════════ */
+.staff-add-row {
+  display: flex; gap: 10px; margin-bottom: 20px;
+  max-width: 500px;
+}
+.staff-list {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.staff-card {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 12px 18px;
+}
+.staff-info {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.staff-info strong { color: var(--bright); font-size: 14px; }
+
+/* ═══ ROLE BADGES ════════════════════════════════════════ */
+.role-badge {
+  font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 1px;
+  display: inline-block;
+}
+.role-admin {
+  background: rgba(255, 100, 50, .15); color: #ff8040;
+}
+.role-staff {
+  background: rgba(100, 180, 255, .15); color: #64b4ff;
+}
+.role-user {
+  background: rgba(255, 255, 255, .06); color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .staff-add-row { flex-direction: column; }
+  .staff-card { flex-direction: column; gap: 8px; align-items: start; }
+  .app-code-panel { padding: 20px; }
+}

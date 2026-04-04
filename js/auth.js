@@ -1,27 +1,43 @@
 /* ═══════════════════════════════════════════════════════
-   JaeTheTech — Auth System (Cloudflare Worker + Resend)
-   Server-side code generation — codes never touch the browser
+   JaeTheTech — Auth System v2
+   Two-tier: website (6-digit) + apps (JTT codes)
+   No passwords. No code tracking. Self-destructing codes.
    ═══════════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
-  /* ── API endpoint (Cloudflare Worker) ───────────────── */
-  const API_BASE = 'https://jaethetech.com';
+  /* ── API endpoint ───────────────────────────────────── */
+  var API = 'https://jaethetech.com';
 
   /* ── Session config ─────────────────────────────────── */
-  const SESSION_KEY = 'jtt_auth';
-  const SESSION_TTL = 4 * 60 * 60 * 1000; // 4 hours
+  var SESSION_KEY = 'jtt_auth';
+  var SESSION_TTL = 4 * 60 * 60 * 1000; // 4 hours
 
-  /* ── DOM refs ───────────────────────────────────────── */
-  const emailStep  = document.getElementById('email-step');
-  const codeStep   = document.getElementById('code-step');
-  const emailInput = document.getElementById('login-email');
-  const codeInput  = document.getElementById('login-code');
-  const sentTo     = document.getElementById('sent-to');
-  const errorEl    = document.getElementById('login-error');
-  const spinnerEl  = document.getElementById('login-spinner');
-  const resendBtn  = document.getElementById('resend-btn');
+  /* ── DOM refs (login flow) ──────────────────────────── */
+  var emailStep   = document.getElementById('email-step');
+  var codeStep    = document.getElementById('code-step');
+  var emailInput  = document.getElementById('login-email');
+  var codeInput   = document.getElementById('login-code');
+  var sentTo      = document.getElementById('sent-to');
+  var resendBtn   = document.getElementById('resend-btn');
+
+  /* ── DOM refs (signup flow) ─────────────────────────── */
+  var signupEmailStep = document.getElementById('signup-email-step');
+  var signupCodeStep  = document.getElementById('signup-code-step');
+  var signupEmail     = document.getElementById('signup-email');
+  var signupCode      = document.getElementById('signup-code');
+  var signupSentTo    = document.getElementById('signup-sent-to');
+
+  /* ── DOM refs (shared) ──────────────────────────────── */
+  var errorEl    = document.getElementById('login-error');
+  var spinnerEl  = document.getElementById('login-spinner');
+
+  /* ── Tab refs ───────────────────────────────────────── */
+  var tabLogin   = document.getElementById('tab-login');
+  var tabSignup  = document.getElementById('tab-signup');
+  var loginFlow  = document.getElementById('login-flow');
+  var signupFlow = document.getElementById('signup-flow');
 
   /* ── State ──────────────────────────────────────────── */
   var pendingEmail = null;
@@ -38,40 +54,69 @@
     if (spinnerEl) spinnerEl.style.display = on ? 'flex' : 'none';
   }
 
-  function setSession(email, token) {
-    var data = { ts: Date.now(), ttl: SESSION_TTL, email: email, token: token };
+  function setSession(email, token, role) {
+    var data = { ts: Date.now(), ttl: SESSION_TTL, email: email, token: token, role: role || 'user' };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
   }
 
-  function hasValidSession() {
+  function getSession() {
     try {
       var raw = sessionStorage.getItem(SESSION_KEY);
-      if (!raw) return false;
+      if (!raw) return null;
       var data = JSON.parse(raw);
-      return (Date.now() - data.ts) < data.ttl;
-    } catch (e) { return false; }
+      if ((Date.now() - data.ts) >= data.ttl) {
+        sessionStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+      return data;
+    } catch (e) { return null; }
   }
 
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
   }
 
+  function redirectForRole(role) {
+    if (role === 'admin' || role === 'staff') {
+      window.location.replace('admin.html');
+    } else {
+      window.location.replace('dashboard.html');
+    }
+  }
+
   /* ── Already authed? Redirect ───────────────────────── */
-  if (hasValidSession() && window.location.pathname.indexOf('login') !== -1) {
-    window.location.replace('admin.html');
+  var session = getSession();
+  if (session && window.location.pathname.indexOf('login') !== -1) {
+    redirectForRole(session.role);
     return;
   }
 
   /* ── API call helper ────────────────────────────────── */
   function apiCall(endpoint, body) {
-    return fetch(API_BASE + endpoint, {
+    return fetch(API + endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     }).then(function (res) { return res.json(); });
   }
 
-  /* ── Step 1: Email submit → Worker generates & sends code */
+  /* ── Tab switching ──────────────────────────────────── */
+  if (tabLogin && tabSignup) {
+    tabLogin.addEventListener('click', function () {
+      tabLogin.classList.add('active');
+      tabSignup.classList.remove('active');
+      loginFlow.style.display = 'block';
+      signupFlow.style.display = 'none';
+    });
+    tabSignup.addEventListener('click', function () {
+      tabSignup.classList.add('active');
+      tabLogin.classList.remove('active');
+      signupFlow.style.display = 'block';
+      loginFlow.style.display = 'none';
+    });
+  }
+
+  /* ═══ LOGIN: Step 1 — Email ═════════════════════════── */
   if (emailStep) {
     emailStep.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -93,15 +138,14 @@
           sentTo.textContent = email;
           codeInput.focus();
         })
-        .catch(function (err) {
+        .catch(function () {
           showSpinner(false);
-          console.error('API error:', err);
           showError('Connection error. Try again.');
         });
     });
   }
 
-  /* ── Step 2: Code verify → Worker checks code server-side */
+  /* ═══ LOGIN: Step 2 — Verify ════════════════════════── */
   if (codeStep) {
     codeStep.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -122,18 +166,17 @@
             codeInput.focus();
             return;
           }
-          setSession(data.email, data.token);
-          window.location.replace('admin.html');
+          setSession(data.email, data.token, data.role);
+          redirectForRole(data.role);
         })
-        .catch(function (err) {
+        .catch(function () {
           showSpinner(false);
-          console.error('API error:', err);
           showError('Connection error. Try again.');
         });
     });
   }
 
-  /* ── Resend ─────────────────────────────────────────── */
+  /* ═══ LOGIN: Resend ═════════════════════════════════── */
   if (resendBtn) {
     resendBtn.addEventListener('click', function () {
       if (!pendingEmail) return;
@@ -151,20 +194,106 @@
     });
   }
 
+  /* ═══ SIGNUP: Step 1 — Register email ═══════════════── */
+  if (signupEmailStep) {
+    signupEmailStep.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = signupEmail.value.trim().toLowerCase();
+
+      if (!isValidEmail(email)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+
+      showSpinner(true);
+      apiCall('/api/auth/signup', { email: email })
+        .then(function (data) {
+          showSpinner(false);
+          if (data.error) { showError(data.error); return; }
+          pendingEmail = email;
+          signupEmailStep.style.display = 'none';
+          signupCodeStep.style.display = 'block';
+          signupSentTo.textContent = email;
+          signupCode.focus();
+        })
+        .catch(function () {
+          showSpinner(false);
+          showError('Connection error. Try again.');
+        });
+    });
+  }
+
+  /* ═══ SIGNUP: Step 2 — Verify ═══════════════════════── */
+  if (signupCodeStep) {
+    signupCodeStep.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var entered = signupCode.value.trim();
+
+      if (!entered || entered.length !== 6) {
+        showError('Enter the 6-digit code.');
+        return;
+      }
+
+      showSpinner(true);
+      apiCall('/api/auth/verify-code', { email: pendingEmail, code: entered })
+        .then(function (data) {
+          showSpinner(false);
+          if (data.error) {
+            showError(data.error);
+            signupCode.value = '';
+            signupCode.focus();
+            return;
+          }
+          setSession(data.email, data.token, data.role);
+          redirectForRole(data.role);
+        })
+        .catch(function () {
+          showSpinner(false);
+          showError('Connection error. Try again.');
+        });
+    });
+  }
+
 })();
 
-/* ── Auth Guard (use on protected pages) ────────────── */
-function requireAuth() {
+/* ═══ Auth Guard (use on protected pages) ═══════════════ */
+function requireAuth(minRole) {
   var SESSION_KEY = 'jtt_auth';
   try {
     var raw = sessionStorage.getItem(SESSION_KEY);
-    if (!raw) { window.location.replace('login.html'); return; }
+    if (!raw) { window.location.replace('login.html'); return null; }
     var data = JSON.parse(raw);
     if ((Date.now() - data.ts) >= data.ttl) {
       sessionStorage.removeItem(SESSION_KEY);
       window.location.replace('login.html');
+      return null;
     }
+    // Role check
+    if (minRole) {
+      var roles = { user: 1, staff: 2, admin: 3 };
+      if ((roles[data.role] || 0) < (roles[minRole] || 0)) {
+        window.location.replace('dashboard.html');
+        return null;
+      }
+    }
+    return data;
   } catch (e) {
     window.location.replace('login.html');
+    return null;
   }
+}
+
+/* ═══ Get current session helper ════════════════════════ */
+function getAuthSession() {
+  var SESSION_KEY = 'jtt_auth';
+  try {
+    var raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    var data = JSON.parse(raw);
+    if ((Date.now() - data.ts) >= data.ttl) {
+      sessionStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+    return data;
+  } catch (e) { return null; }
 }

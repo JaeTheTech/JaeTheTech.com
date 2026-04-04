@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
   <title>Login — JaeTheTech</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,28 +12,80 @@
     <div class="login-card">
       <div class="login-icon">🔒</div>
       <h1 class="login-title">JaeTheTech</h1>
-      <p class="login-sub">Private access — authorised users only.</p>
-      <p style="margin-bottom:24px;"><a href="index.html" style="color:var(--muted);font-size:13px;">← Back to site</a></p>
 
-      <!-- Step 1: Email -->
-      <form id="email-step" class="login-form">
-        <label class="login-label" for="login-email">Email</label>
-        <input class="login-input" id="login-email" type="email" placeholder="Enter your email" autocomplete="email" required>
-        <button class="btn btn-primary login-btn" type="submit">Send Code</button>
-      </form>
+      <!-- Tab toggle: Login / Sign Up -->
+      <div class="login-tabs">
+        <button class="login-tab active" id="tab-login">Login</button>
+        <button class="login-tab" id="tab-signup">Sign Up</button>
+      </div>
 
-      <!-- Step 2: Code verification -->
-      <form id="code-step" class="login-form" style="display:none;">
-        <p class="login-sent-msg">A 6-digit code was sent to <strong id="sent-to"></strong></p>
-        <label class="login-label" for="login-code">Verification Code</label>
-        <input class="login-input login-code-input" id="login-code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
-        <button class="btn btn-primary login-btn" type="submit">Verify</button>
-        <button class="login-link" type="button" id="resend-btn">Resend code</button>
-      </form>
+      <!-- ═══ LOGIN FLOW ═══════════════════════════════ -->
+      <div id="login-flow">
+        <p class="login-sub">Enter your email to receive a login code.</p>
+
+        <!-- Step 1: Email -->
+        <form id="email-step" class="login-form">
+          <label class="login-label" for="login-email">Email</label>
+          <input class="login-input" id="login-email" type="email" placeholder="Enter your email" autocomplete="email" required>
+          <button class="btn btn-primary login-btn" type="submit">Send Code</button>
+        </form>
+
+        <!-- Step 2: Code verification -->
+        <form id="code-step" class="login-form" style="display:none;">
+          <p class="login-sent-msg">A 6-digit code was sent to <strong id="sent-to"></strong></p>
+          <label class="login-label" for="login-code">Verification Code</label>
+          <input class="login-input login-code-input" id="login-code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
+          <button class="btn btn-primary login-btn" type="submit">Verify</button>
+          <button class="login-link" type="button" id="resend-btn">Resend code</button>
+        </form>
+      </div>
+
+      <!-- ═══ SIGNUP FLOW ══════════════════════════════ -->
+      <div id="signup-flow" style="display:none;">
+        <p class="login-sub">Create an account — no passwords, just your email.</p>
+
+        <!-- Privacy tips -->
+        <div class="privacy-tips">
+          <div class="privacy-tip">
+            <span class="privacy-tip-icon">📧</span>
+            <div>
+              <strong>Use a forwarding email</strong>
+              <p>We recommend <a href="https://addy.io" target="_blank" rel="noopener">addy.io</a> — keeps your real email private.</p>
+            </div>
+          </div>
+          <div class="privacy-tip">
+            <span class="privacy-tip-icon">🔐</span>
+            <div>
+              <strong>Encrypt your traffic</strong>
+              <p>Use <a href="https://nextdns.io" target="_blank" rel="noopener">NextDNS</a> on your devices for encrypted DNS.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1: Email -->
+        <form id="signup-email-step" class="login-form">
+          <label class="login-label" for="signup-email">Email</label>
+          <input class="login-input" id="signup-email" type="email" placeholder="Enter your email" autocomplete="email" required>
+          <button class="btn btn-primary login-btn" type="submit">Create Account</button>
+        </form>
+
+        <!-- Step 2: Verify -->
+        <form id="signup-code-step" class="login-form" style="display:none;">
+          <p class="login-sent-msg">Verify your email — code sent to <strong id="signup-sent-to"></strong></p>
+          <label class="login-label" for="signup-code">Verification Code</label>
+          <input class="login-input login-code-input" id="signup-code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
+          <button class="btn btn-primary login-btn" type="submit">Verify</button>
+        </form>
+      </div>
 
       <div id="login-error" class="login-error" style="display:none;"></div>
       <div id="login-spinner" class="login-spinner" style="display:none;">
         <div class="spinner"></div>
+      </div>
+
+      <div class="login-footer">
+        <p>No passwords. No tracking. Codes self-destruct after use.</p>
+        <a href="index.html">← Back to site</a>
       </div>
     </div>
   </div>

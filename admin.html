@@ -21,7 +21,7 @@
         <li><a href="platforms.html">Platforms</a></li>
         <li><a href="development.html">Development</a></li>
         <li><a href="admin.html" class="active">Admin</a></li>
-        <li><a href="#" id="logout-btn" style="color:var(--neon-red,#d9534f);">Logout</a></li>
+        <li><a href="#" id="logout-btn" style="color:#d9534f;">Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -30,7 +30,7 @@
   <header class="page-header">
     <div class="container">
       <h1>🔒 Admin Dashboard</h1>
-      <p>Authenticated as <strong id="auth-email">—</strong> — session active.</p>
+      <p>Authenticated as <strong id="auth-email">—</strong> — <span id="auth-role" class="role-badge">—</span></p>
     </div>
   </header>
 
@@ -44,7 +44,7 @@
         <div class="card reveal">
           <div class="card-icon">📄</div>
           <h3>Pages</h3>
-          <p>7 pages active — Home, About, Projects, Platforms, Development, Login, Admin.</p>
+          <p>8 pages — Home, About, Projects, Platforms, Development, Login, Dashboard, Admin.</p>
         </div>
         <div class="card reveal">
           <div class="card-icon">🎨</div>
@@ -54,14 +54,32 @@
         <div class="card reveal">
           <div class="card-icon">🔒</div>
           <h3>Auth</h3>
-          <p>Cloudflare Worker + Resend email verification. Session: 4 hours.</p>
+          <p>Cloudflare Worker + Email Routing. No passwords. Disposable codes. Roles: admin, staff, user.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Staff Management (admin only) -->
+  <section class="section section-alt" id="staff-section">
+    <div class="container">
+      <p class="section-label reveal">Team</p>
+      <h2 class="section-title reveal">👥 Staff Management</h2>
+      <p class="section-intro reveal">Add or remove staff members. Staff get access to admin but not team management.</p>
+
+      <div class="staff-add-row reveal">
+        <input class="login-input" id="staff-email-input" type="email" placeholder="Email address" style="flex:1;">
+        <button class="btn btn-primary" id="btn-add-staff">Add Staff</button>
+      </div>
+
+      <div id="staff-list" class="staff-list reveal">
+        <p style="color:var(--muted);font-size:13px;">Loading staff...</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Vault -->
-  <section class="section section-alt">
+  <section class="section">
     <div class="container">
       <p class="section-label reveal">Private</p>
       <h2 class="section-title reveal">🔐 Vault</h2>
@@ -85,7 +103,7 @@
   </section>
 
   <!-- Quick Links -->
-  <section class="section">
+  <section class="section section-alt">
     <div class="container">
       <p class="section-label reveal">Quick Links</p>
       <h2 class="section-title reveal">Site Pages</h2>
@@ -160,10 +178,10 @@
   <script src="js/auth.js"></script>
   <script src="js/scripts.js" defer></script>
   <script>
-    /* Auth guard — kick to login if no valid session */
-    requireAuth();
+    /* Auth guard — require staff or admin */
+    var session = requireAuth('staff');
 
-    /* Session timer */
+    /* Session info */
     (function () {
       var KEY = 'jtt_auth';
       function update() {
@@ -176,10 +194,24 @@
       update();
       setInterval(update, 30000);
 
-      /* Show logged-in email */
+      /* Show email + role */
       try {
         var d = JSON.parse(sessionStorage.getItem(KEY));
-        if (d && d.email) document.getElementById('auth-email').textContent = d.email;
+        if (d) {
+          document.getElementById('auth-email').textContent = d.email;
+          var badge = document.getElementById('auth-role');
+          badge.textContent = d.role || 'user';
+          badge.className = 'role-badge role-' + (d.role || 'user');
+        }
+      } catch (e) {}
+
+      /* Hide staff management for non-admins */
+      try {
+        var s = JSON.parse(sessionStorage.getItem(KEY));
+        if (s && s.role !== 'admin') {
+          var staffSection = document.getElementById('staff-section');
+          if (staffSection) staffSection.style.display = 'none';
+        }
       } catch (e) {}
     })();
 
@@ -189,6 +221,103 @@
       sessionStorage.removeItem('jtt_auth');
       window.location.replace('login.html');
     });
+
+    /* ── Staff Management ─────────────────────────────── */
+    (function () {
+      var API = 'https://jaethetech.com';
+      var listEl = document.getElementById('staff-list');
+      var inputEl = document.getElementById('staff-email-input');
+      var addBtn = document.getElementById('btn-add-staff');
+      if (!listEl || !addBtn) return;
+
+      function getToken() {
+        try { return JSON.parse(sessionStorage.getItem('jtt_auth')).token; }
+        catch (e) { return ''; }
+      }
+
+      function escapeHtml(str) {
+        var d = document.createElement('div');
+        d.appendChild(document.createTextNode(str));
+        return d.innerHTML;
+      }
+
+      function loadStaff() {
+        fetch(API + '/api/staff/list', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+          body: JSON.stringify({})
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data.ok || !data.staff) {
+            listEl.innerHTML = '<p style="color:var(--muted);font-size:13px;">Could not load staff.</p>';
+            return;
+          }
+          if (!data.staff.length) {
+            listEl.innerHTML = '<p style="color:var(--muted);font-size:13px;">No staff members yet.</p>';
+            return;
+          }
+          var html = '';
+          data.staff.forEach(function (s) {
+            var date = new Date(s.created).toLocaleDateString();
+            html += '<div class="staff-card">';
+            html += '<div class="staff-info">';
+            html += '<strong>' + escapeHtml(s.email) + '</strong>';
+            html += '<span class="role-badge role-' + s.role + '">' + s.role + '</span>';
+            html += '<span style="color:var(--muted);font-size:12px;margin-left:8px;">since ' + date + '</span>';
+            html += '</div>';
+            if (s.role !== 'admin') {
+              html += '<button class="btn staff-remove-btn" data-email="' + escapeHtml(s.email) + '" style="font-size:12px;padding:6px 14px;">Remove</button>';
+            }
+            html += '</div>';
+          });
+          listEl.innerHTML = html;
+
+          listEl.querySelectorAll('.staff-remove-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var email = btn.getAttribute('data-email');
+              if (!confirm('Remove ' + email + ' from staff?')) return;
+              fetch(API + '/api/staff/remove', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+                body: JSON.stringify({ email: email })
+              })
+              .then(function () { loadStaff(); });
+            });
+          });
+        })
+        .catch(function () {
+          listEl.innerHTML = '<p style="color:var(--muted);font-size:13px;">Connection error.</p>';
+        });
+      }
+
+      addBtn.addEventListener('click', function () {
+        var email = inputEl.value.trim().toLowerCase();
+        if (!email) return;
+        addBtn.disabled = true;
+        addBtn.textContent = 'Adding...';
+
+        fetch(API + '/api/staff/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() },
+          body: JSON.stringify({ email: email })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          addBtn.disabled = false;
+          addBtn.textContent = 'Add Staff';
+          if (data.error) { alert(data.error); return; }
+          inputEl.value = '';
+          loadStaff();
+        })
+        .catch(function () {
+          addBtn.disabled = false;
+          addBtn.textContent = 'Add Staff';
+        });
+      });
+
+      loadStaff();
+    })();
 
     /* ── Vault ───────────────────────────────────────── */
     (function () {

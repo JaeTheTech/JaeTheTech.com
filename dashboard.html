@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard — JaeTheTech</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span>⚡</span> JaeTheTech</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="platforms.html">Platforms</a></li>
+        <li><a href="development.html">Development</a></li>
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="#" id="logout-btn" style="color:#d9534f;">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <h1>👤 Dashboard</h1>
+      <p>Signed in as <strong id="auth-email">—</strong></p>
+    </div>
+  </header>
+
+  <!-- App Codes Section -->
+  <section class="section">
+    <div class="container">
+      <p class="section-label reveal">Secure Access</p>
+      <h2 class="section-title reveal">App Codes</h2>
+      <p class="section-intro reveal">Generate a secure JTT code to sign into apps. Codes are single-use, expire in 2 minutes, and self-destruct after use. No one gets the same code twice.</p>
+
+      <div class="app-code-panel reveal">
+        <div class="app-code-display" id="app-code-display">
+          <span class="app-code-placeholder">No active code</span>
+        </div>
+        <div class="app-code-info" id="app-code-info" style="display:none;">
+          <div class="app-code-timer">Expires in <strong id="app-code-countdown">120</strong>s</div>
+          <p class="app-code-warning">⚠ Single use only — self-destructs on entry</p>
+        </div>
+        <button class="btn btn-primary" id="btn-gen-code" style="width:100%;justify-content:center;">Generate App Code</button>
+        <button class="btn" id="btn-reset-code" style="width:100%;justify-content:center;display:none;">Reset Code</button>
+      </div>
+
+      <div class="grid-3" style="margin-top:32px;">
+        <div class="card reveal">
+          <div class="card-icon">🔑</div>
+          <h3>JTT Prefix</h3>
+          <p>All app codes start with JTT followed by 12 secure alphanumeric characters.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">💨</div>
+          <h3>Self-Destruct</h3>
+          <p>Codes are wiped the instant they're used. No repeats, no reuse, no storage.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">⏱</div>
+          <h3>2 Min Window</h3>
+          <p>Codes expire automatically after 2 minutes even if unused.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy Section -->
+  <section class="section section-alt">
+    <div class="container">
+      <p class="section-label reveal">Privacy</p>
+      <h2 class="section-title reveal">Your Security</h2>
+
+      <div class="grid-2" style="gap:20px;">
+        <div class="card reveal">
+          <div class="card-icon">🚫</div>
+          <h3>No Passwords</h3>
+          <p>We never track or store passwords. Your email is your only identity. Codes are fully disposable.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">📧</div>
+          <h3>Forwarding Email</h3>
+          <p>Use <a href="https://addy.io" target="_blank" rel="noopener" style="color:var(--bright);">addy.io</a> for a forwarding email to keep your real address private.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🔐</div>
+          <h3>Encrypted DNS</h3>
+          <p>Use <a href="https://nextdns.io" target="_blank" rel="noopener" style="color:var(--bright);">NextDNS</a> to encrypt your network traffic before it leaves your device.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🖥️</div>
+          <h3>Hardware Privacy</h3>
+          <p>Our apps randomise hardware IDs and MAC addresses. Your real device fingerprint stays hidden.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Session Info -->
+  <section class="section">
+    <div class="container">
+      <p class="section-label reveal">Session</p>
+      <h2 class="section-title reveal">Current Session</h2>
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="stat-val" id="session-time">--</div>
+          <div class="stat-label">Minutes Remaining</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">4h</div>
+          <div class="stat-label">Session Length</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="platforms.html">Platforms</a>
+        <a href="development.html">Development</a>
+      </div>
+      <p>&copy; 2026 JaeTheTech. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/scripts.js" defer></script>
+  <script>
+    /* Auth guard */
+    var session = requireAuth();
+
+    /* Show email */
+    if (session) {
+      document.getElementById('auth-email').textContent = session.email;
+    }
+
+    /* Session timer */
+    (function () {
+      var KEY = 'jtt_auth';
+      function update() {
+        try {
+          var data = JSON.parse(sessionStorage.getItem(KEY));
+          var left = Math.max(0, Math.round((data.ttl - (Date.now() - data.ts)) / 60000));
+          document.getElementById('session-time').textContent = left;
+        } catch (e) {}
+      }
+      update();
+      setInterval(update, 30000);
+    })();
+
+    /* Logout */
+    document.getElementById('logout-btn').addEventListener('click', function (e) {
+      e.preventDefault();
+      sessionStorage.removeItem('jtt_auth');
+      window.location.replace('login.html');
+    });
+
+    /* ── App Code Generator ────────────────────────────── */
+    (function () {
+      var API = 'https://jaethetech.com';
+      var btnGen     = document.getElementById('btn-gen-code');
+      var btnReset   = document.getElementById('btn-reset-code');
+      var display    = document.getElementById('app-code-display');
+      var info       = document.getElementById('app-code-info');
+      var countdown  = document.getElementById('app-code-countdown');
+      var timer      = null;
+
+      function getToken() {
+        try {
+          return JSON.parse(sessionStorage.getItem('jtt_auth')).token;
+        } catch (e) { return ''; }
+      }
+
+      btnGen.addEventListener('click', function () {
+        btnGen.disabled = true;
+        btnGen.textContent = 'Generating...';
+
+        fetch(API + '/api/auth/app-code', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getToken()
+          },
+          body: JSON.stringify({})
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          btnGen.disabled = false;
+          if (data.error) {
+            btnGen.textContent = 'Generate App Code';
+            display.innerHTML = '<span class="app-code-error">' + data.error + '</span>';
+            return;
+          }
+
+          display.innerHTML = '<span class="app-code-sent">Code sent to your email</span>';
+          info.style.display = 'block';
+          btnGen.style.display = 'none';
+          btnReset.style.display = 'block';
+
+          // Countdown
+          var secs = data.expiresIn || 120;
+          countdown.textContent = secs;
+          clearInterval(timer);
+          timer = setInterval(function () {
+            secs--;
+            countdown.textContent = secs;
+            if (secs <= 0) {
+              clearInterval(timer);
+              display.innerHTML = '<span class="app-code-placeholder">Code expired</span>';
+              info.style.display = 'none';
+              btnReset.style.display = 'none';
+              btnGen.style.display = 'block';
+              btnGen.textContent = 'Generate App Code';
+            }
+          }, 1000);
+        })
+        .catch(function () {
+          btnGen.disabled = false;
+          btnGen.textContent = 'Generate App Code';
+          display.innerHTML = '<span class="app-code-error">Connection error</span>';
+        });
+      });
+
+      btnReset.addEventListener('click', function () {
+        clearInterval(timer);
+        display.innerHTML = '<span class="app-code-placeholder">No active code</span>';
+        info.style.display = 'none';
+        btnReset.style.display = 'none';
+        btnGen.style.display = 'block';
+        btnGen.textContent = 'Generate App Code';
+      });
+    })();
+  </script>
+</body>
+</html>
