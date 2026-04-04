@@ -31,125 +31,136 @@
   <header class="page-header">
     <div class="container">
       <h1>Projects</h1>
-      <div class="page-header-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 4"><line x1="0" y1="2" x2="80" y2="2" stroke="#444" stroke-width="2" stroke-linecap="round"/><circle cx="40" cy="2" r="2" fill="#444"/></svg></div>
-      <p>Code, tools and apps I've built — from personal AI workstations to system utilities.</p>
+      <div class="page-header-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 4"><line x1="0" y1="2" x2="80" y2="2" stroke="#3a3a3a" stroke-width="2" stroke-linecap="round"/><circle cx="40" cy="2" r="2" fill="#3a3a3a"/></svg></div>
+      <p>Everything I'm building — public repos, private tools, and the bigger picture.</p>
     </div>
   </header>
 
-  <!-- Personal AI (Featured) -->
+  <!-- Featured Projects -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title reveal"><span class="accent">◆</span>Personal AI</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Featured</h2>
 
-      <div class="project-card reveal">
-        <div class="project-header">
-          <span class="project-badge featured">Building Now</span>
-        </div>
-
-        <!-- App mockup illustration -->
-        <div class="project-mockup" style="margin: 0 28px 0 28px;">
-          <div class="project-mockup-bar">
-            <span class="project-mockup-dot"></span>
-            <span class="project-mockup-dot"></span>
-            <span class="project-mockup-dot"></span>
-            <span class="project-mockup-title">Personal AI</span>
+      <div class="grid-2">
+        <!-- Personal AI -->
+        <div class="project-card reveal">
+          <div class="project-header">
+            <span class="project-badge featured">Building Now</span>
           </div>
-          <div class="project-mockup-body">
-            <div class="project-mockup-sidebar">
-              <span></span><span></span><span></span><span></span>
+          <div class="project-mockup" style="margin:0 28px;">
+            <div class="project-mockup-bar">
+              <span class="project-mockup-dot"></span>
+              <span class="project-mockup-dot"></span>
+              <span class="project-mockup-dot"></span>
+              <span class="project-mockup-title">Personal AI</span>
             </div>
-            <div class="project-mockup-content">
-              <div class="project-mockup-line bright"></div>
-              <div class="project-mockup-chat">
-                <div class="project-mockup-bubble user">edit server.js line 42</div>
-                <div class="project-mockup-bubble ai">Applied. 1 file changed.</div>
+            <div class="project-mockup-body">
+              <div class="project-mockup-sidebar">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="project-mockup-content">
+                <div class="project-mockup-line bright"></div>
+                <div class="project-mockup-chat">
+                  <div class="project-mockup-bubble user">edit server.js line 42</div>
+                  <div class="project-mockup-bubble ai">Applied. 1 file changed.</div>
+                </div>
               </div>
             </div>
           </div>
+          <div class="project-body">
+            <h3>Personal AI</h3>
+            <p>Self-editing AI assistant — coding, market data, news, daily tasks. Runs on local Ollama models, built 100% from scratch.</p>
+            <div class="project-tech">
+              <span>Node.js</span><span>Rust</span><span>Tauri</span><span>WebSocket</span><span>Ollama</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener" class="btn btn-primary">GitHub ↗</a>
+            </div>
+          </div>
         </div>
 
-        <div class="project-body">
-          <h3>Personal AI</h3>
-          <p>My main project — a self-editing AI assistant that handles coding, live market data, news, and daily tasks. Runs entirely on local AI through Ollama, built from scratch with zero UI frameworks, and works as a desktop app (Tauri) or PWA on any device.</p>
-
-          <div class="project-features">
-            <span class="project-feature">AI-Powered Code Editor</span>
-            <span class="project-feature">Live Gold &amp; Crypto Trading</span>
-            <span class="project-feature">Multi-Source News Feed</span>
-            <span class="project-feature">Personal Dashboard</span>
-            <span class="project-feature">Cross-Platform PWA</span>
-            <span class="project-feature">Network Privacy Layer</span>
-            <span class="project-feature">MAC/UA Randomization</span>
-            <span class="project-feature">Zero Recurring Costs</span>
-            <span class="project-feature">100% Custom HTML/CSS/JS</span>
-            <span class="project-feature">WebSocket Real-Time Sync</span>
+        <!-- Svart Security -->
+        <div class="project-card reveal">
+          <div class="project-header">
+            <span class="project-badge featured">In Development</span>
           </div>
-
-          <div class="project-tech">
-            <span>Node.js</span><span>Express</span><span>WebSocket</span>
-            <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
-            <span>PWA</span><span>Service Workers</span><span>Ollama AI</span>
+          <div class="project-mockup" style="margin:0 28px;">
+            <div class="project-mockup-bar">
+              <span class="project-mockup-dot"></span>
+              <span class="project-mockup-dot"></span>
+              <span class="project-mockup-dot"></span>
+              <span class="project-mockup-title">Svart Security</span>
+            </div>
+            <div class="project-mockup-body">
+              <div class="project-mockup-content" style="justify-content:center;align-items:center;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="#3a3a3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 4 L34 12 L34 28 L20 36 L6 28 L6 12 Z"/>
+                  <path d="M20 14 L26 18 L26 26 L20 30 L14 26 L14 18 Z" fill="rgba(255,255,255,.04)"/>
+                  <circle cx="20" cy="22" r="2" fill="#3a3a3a" stroke="none"/>
+                </svg>
+              </div>
+            </div>
           </div>
-
-          <div class="project-actions">
-            <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub ↗</a>
-            <a href="https://ko-fi.com/jaethetech" target="_blank" rel="noopener" class="btn">Support This Project</a>
+          <div class="project-body">
+            <h3>Svart Security</h3>
+            <p>Privacy toolkit — encrypted AI, browser, vault, messaging. Website, tools, and apps under <a href="https://svartsecurity.org" target="_blank" rel="noopener">svartsecurity.org</a>.</p>
+            <div class="project-tech">
+              <span>HTML/CSS/JS</span><span>Cloudflare</span><span>Tauri</span><span>Rust</span><span>AES-256</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://svartsecurity.org" target="_blank" rel="noopener" class="btn btn-primary">Visit Site ↗</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Latest from GitHub -->
+  <!-- All Tools & Projects -->
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title reveal"><span class="accent">◆</span>GitHub Repos</h2>
-      <p class="section-intro reveal">Public repos pulled live from GitHub, sorted by activity.</p>
+      <h2 class="section-title reveal"><span class="accent">◆</span>All Projects</h2>
+      <p class="section-intro reveal">Everything I'm working on — public and private. Activity pulled from GitHub where available.</p>
 
-      <div class="grid-3" id="github-repos">
-        <!-- Populated by JS -->
-        <div class="card reveal" style="text-align:center;padding:40px 20px;">
-          <h3>Loading repos…</h3>
-        </div>
+      <!-- Filter tabs -->
+      <div class="project-filters reveal">
+        <button class="project-filter active" data-filter="all">All</button>
+        <button class="project-filter" data-filter="active">Active</button>
+        <button class="project-filter" data-filter="public">Public</button>
+        <button class="project-filter" data-filter="private">Private</button>
       </div>
 
-      <div style="text-align:center;margin-top:28px;">
-        <a href="https://github.com/JaeTheTech?tab=repositories" target="_blank" rel="noopener" class="btn btn-primary">View All on GitHub ↗</a>
+      <div class="project-grid" id="all-projects">
+        <div class="card" style="text-align:center;padding:40px 20px;grid-column:1/-1;">
+          <div class="spinner" style="margin:0 auto 12px;"></div>
+          <h3 style="color:var(--muted);">Loading projects…</h3>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Platform Projects -->
+  <!-- GitHub Activity -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title reveal"><span class="accent">◆</span>Platforms</h2>
-
-      <div class="grid-3">
-        <a href="platforms.html#tab-windows" class="card reveal" style="text-decoration:none;">
-          <div class="card-art">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="#444"><path d="M2 6.3l11.7-1.6v11.3H2zm13.1-1.8L36 2v13.7H15.1zM36 16.4v13.6l-20.9-2.2V16.4zM13.7 27.7L2 26.1V16.4h11.7z"/></svg>
+      <h2 class="section-title reveal"><span class="accent">◆</span>GitHub Stats</h2>
+      <div class="grid-2">
+        <div class="stats reveal">
+          <div class="stat">
+            <div class="stat-val" id="stat-repos">—</div>
+            <div class="stat-label">Public Repos</div>
           </div>
-          <h3>Windows</h3>
-          <p>Primary dev machine. Tauri builds, PowerShell scripts, GPU testing.</p>
-        </a>
-        <a href="platforms.html#tab-mac" class="card reveal" style="text-decoration:none;">
-          <div class="card-art">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="#444"><path d="M25.2 5.4c-1.2 1.4-3.2 2.4-5.1 2.3-.2-2 .7-4.1 1.8-5.4 1.2-1.4 3.4-2.4 5.1-2.5.2 2.2-.7 4.3-1.8 5.6zm1.8 2.9c-2.9-.2-5.3 1.6-6.6 1.6s-3.5-1.5-5.7-1.5c-2.9 0-5.6 1.7-7.1 4.3-3 5.3-.8 13.1 2.2 17.4 1.4 2.1 3.2 4.4 5.5 4.3 2.2-.1 3-1.4 5.6-1.4s3.4 1.4 5.7 1.3c2.4-.1 3.9-2.1 5.3-4.2 1-1.4 1.3-2.1 2.1-3.7-5.4-2.1-6.3-9.8-1-12.7-1.5-1.9-3.7-3-5.9-5.4z"/></svg>
+          <div class="stat">
+            <div class="stat-val" id="stat-private">—</div>
+            <div class="stat-label">Private Projects</div>
           </div>
-          <h3>Mac</h3>
-          <p>Cross-platform builds, Safari testing, shell configs.</p>
-        </a>
-        <a href="platforms.html#tab-linux" class="card reveal" style="text-decoration:none;">
-          <div class="card-art">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="#444"><path d="M20 2C14.5 2 11 7.5 11 12c0 3.5 1 6.5 2.5 8.8-2 1.2-5 3.2-6 6.2-1 2.8 0 6 3 8C12.5 36.5 16 37 19 36.8c1.5-.1 3-.2 4-.2s2.5.1 4 .2c3 .2 6.5-.3 8.5-1.8 3-2 4-5.2 3-8-1-3-4-5-6-6.2C34 18.5 35 15.5 35 12c0-4.5-3.5-10-9-10h-6zm-2.5 7c1 0 2 .8 2 2s-1 2-2 2-2-.8-2-2 1-2 2-2zm6 0c1 0 2 .8 2 2s-1 2-2 2-2-.8-2-2 1-2 2-2zM16 15c.6 1.2 2.2 2 4 2s3.4-.8 4-2c.2.5.2 1 0 1.5-.6 1.2-2.2 2-4 2s-3.4-.8-4-2c-.2-.5-.2-1 0-1.5z"/></svg>
+        </div>
+        <div class="content-section reveal">
+          <h2>Contribution Activity</h2>
+          <p>87 contributions in the last year. Most activity in Main-Website, Personal AI, and Svart Security repos.</p>
+          <div class="link-row">
+            <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener" class="btn btn-primary">View GitHub Profile ↗</a>
           </div>
-          <h3>Linux</h3>
-          <p>Servers, networking, security research.</p>
-        </a>
-      </div>
-
-      <div style="text-align:center;margin-top:28px;">
-        <a href="platforms.html" class="btn btn-primary">View All Platforms</a>
+        </div>
       </div>
     </div>
   </section>
