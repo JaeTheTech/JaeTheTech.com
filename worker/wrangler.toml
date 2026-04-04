@@ -1,6 +1,7 @@
 name = "jtt-auth-worker"
 main = "auth-worker.js"
 compatibility_date = "2024-09-01"
+workers_dev = true
 
 [[kv_namespaces]]
 binding = "AUTH_KV"
@@ -9,3 +10,6 @@ id = "ccdbc6694a2448bbb9e84f7f60a03f38"
 [[routes]]
 pattern = "jaethetech.com/api/*"
 zone_name = "jaethetech.com"
+
+[[send_email]]
+name = "SEND_EMAIL"
