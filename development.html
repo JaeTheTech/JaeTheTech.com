@@ -12,7 +12,7 @@
   <!-- Nav -->
   <nav class="nav">
     <div class="container">
-      <a href="index.html" class="nav-brand"><span>⚡</span> JaeTheTech</a>
+      <a href="index.html" class="nav-brand"><span class="art-icon" style="width:20px;height:20px"><svg viewBox="0 0 20 20" fill="#f0f0f0" stroke="none"><polygon points="11,1 4,11 9,11 7,19 16,9 11,9"/></svg></span> JaeTheTech</a>
       <button class="nav-toggle" aria-label="Menu">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
@@ -29,6 +29,7 @@
   <header class="page-header">
     <div class="container">
       <h1>Development</h1>
+      <div class="page-header-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 4"><line x1="0" y1="2" x2="80" y2="2" stroke="#444" stroke-width="2" stroke-linecap="round"/><circle cx="40" cy="2" r="2" fill="#444"/></svg></div>
       <p>What I'm learning, what I'm building next, and how I got here.</p>
     </div>
   </header>
@@ -40,14 +41,44 @@
 
       <div class="grid-3">
         <div class="card reveal">
+          <div class="card-art">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="32" height="26" rx="3"/>
+              <line x1="4" y1="10" x2="36" y2="10"/>
+              <circle cx="8" cy="7" r="1" fill="#444" stroke="none"/>
+              <circle cx="12" cy="7" r="1" fill="#444" stroke="none"/>
+              <rect x="8" y="14" width="10" height="12" rx="1" fill="rgba(255,255,255,.03)"/>
+              <rect x="22" y="14" width="10" height="5" rx="1" fill="rgba(255,255,255,.03)"/>
+              <rect x="22" y="22" width="10" height="4" rx="1" fill="rgba(255,255,255,.03)"/>
+              <line x1="14" y1="34" x2="26" y2="34"/>
+              <line x1="20" y1="30" x2="20" y2="34"/>
+            </svg>
+          </div>
           <h3>Personal AI</h3>
           <p>Main project. Self-editing AI assistant built from scratch — Node, Rust, Tauri, local models. No frameworks, no recurring costs.</p>
         </div>
         <div class="card reveal">
+          <div class="card-art">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 4 L34 12 L34 28 L20 36 L6 28 L6 12 Z"/>
+              <path d="M20 14 L26 18 L26 26 L20 30 L14 26 L14 18 Z" fill="rgba(255,255,255,.04)"/>
+              <circle cx="20" cy="22" r="2" fill="#444" stroke="none"/>
+              <line x1="20" y1="17" x2="20" y2="20"/>
+            </svg>
+          </div>
           <h3>Svart Security</h3>
           <p>Security research, network hardening, and privacy tooling under <a href="https://x.com/SvartSecurity" target="_blank" rel="noopener">@SvartSecurity</a>.</p>
         </div>
         <div class="card reveal">
+          <div class="card-art">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="20" cy="20" r="14"/>
+              <line x1="20" y1="6" x2="20" y2="34"/>
+              <ellipse cx="20" cy="20" rx="6" ry="14"/>
+              <line x1="6" y1="15" x2="34" y2="15"/>
+              <line x1="6" y1="25" x2="34" y2="25"/>
+            </svg>
+          </div>
           <h3>This Site</h3>
           <p>Custom auth system with Cloudflare Workers, disposable codes, role-based access. All hand-written.</p>
         </div>
@@ -86,14 +117,26 @@
 
       <div class="content-section reveal">
         <h2>The Path</h2>
-        <ul>
-          <li><strong>Started with hardware</strong> — Building PCs, swapping parts, figuring out what breaks and why</li>
-          <li><strong>Got into networking</strong> — Home labs, routers, DNS, firewalls, VPNs</li>
-          <li><strong>Picked up coding</strong> — HTML/CSS first, then JavaScript, then Node.js and backend</li>
-          <li><strong>Found security</strong> — Pentesting concepts, network hardening, privacy-first thinking</li>
-          <li><strong>Started Svart Security</strong> — Turned security research into something real</li>
-          <li><strong>Built Personal AI</strong> — Combined everything into one self-editing, local-first AI assistant</li>
-        </ul>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span><strong>Started with hardware</strong> — Building PCs, swapping parts, figuring out what breaks and why</span>
+          </div>
+          <div class="timeline-item">
+            <span><strong>Got into networking</strong> — Home labs, routers, DNS, firewalls, VPNs</span>
+          </div>
+          <div class="timeline-item">
+            <span><strong>Picked up coding</strong> — HTML/CSS first, then JavaScript, then Node.js and backend</span>
+          </div>
+          <div class="timeline-item">
+            <span><strong>Found security</strong> — Pentesting concepts, network hardening, privacy-first thinking</span>
+          </div>
+          <div class="timeline-item">
+            <span><strong>Started Svart Security</strong> — Turned security research into something real</span>
+          </div>
+          <div class="timeline-item">
+            <span><strong>Built Personal AI</strong> — Combined everything into one self-editing, local-first AI assistant</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>

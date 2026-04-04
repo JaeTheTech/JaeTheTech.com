@@ -12,7 +12,7 @@
   <!-- Nav -->
   <nav class="nav">
     <div class="container">
-      <a href="index.html" class="nav-brand"><span>⚡</span> JaeTheTech</a>
+      <a href="index.html" class="nav-brand"><span class="art-icon" style="width:20px;height:20px"><svg viewBox="0 0 20 20" fill="#f0f0f0" stroke="none"><polygon points="11,1 4,11 9,11 7,19 16,9 11,9"/></svg></span> JaeTheTech</a>
       <button class="nav-toggle" aria-label="Menu">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
@@ -29,6 +29,7 @@
   <header class="page-header">
     <div class="container">
       <h1>Projects</h1>
+      <div class="page-header-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 4"><line x1="0" y1="2" x2="80" y2="2" stroke="#444" stroke-width="2" stroke-linecap="round"/><circle cx="40" cy="2" r="2" fill="#444"/></svg></div>
       <p>Code, tools and apps I've built — from personal AI workstations to system utilities.</p>
     </div>
   </header>
@@ -40,9 +41,31 @@
 
       <div class="project-card reveal">
         <div class="project-header">
-          <div class="project-icon">⚡</div>
           <span class="project-badge featured">Featured</span>
         </div>
+
+        <!-- App mockup illustration -->
+        <div class="project-mockup" style="margin: 0 28px 0 28px;">
+          <div class="project-mockup-bar">
+            <span class="project-mockup-dot"></span>
+            <span class="project-mockup-dot"></span>
+            <span class="project-mockup-dot"></span>
+            <span class="project-mockup-title">Personal AI</span>
+          </div>
+          <div class="project-mockup-body">
+            <div class="project-mockup-sidebar">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="project-mockup-content">
+              <div class="project-mockup-line bright"></div>
+              <div class="project-mockup-chat">
+                <div class="project-mockup-bubble user">edit server.js line 42</div>
+                <div class="project-mockup-bubble ai">Applied. 1 file changed.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="project-body">
           <h3>Personal AI</h3>
           <p>My main project — a self-editing AI assistant that handles coding, live market data, news, and daily tasks. Runs entirely on local AI through Ollama, built from scratch with zero UI frameworks, and works as a desktop app (Tauri) or PWA on any device.</p>
@@ -101,14 +124,23 @@
 
       <div class="grid-3">
         <a href="platforms.html#tab-windows" class="card reveal" style="text-decoration:none;">
+          <div class="card-art">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="#444"><path d="M2 6.3l11.7-1.6v11.3H2zm13.1-1.8L36 2v13.7H15.1zM36 16.4v13.6l-20.9-2.2V16.4zM13.7 27.7L2 26.1V16.4h11.7z"/></svg>
+          </div>
           <h3>Windows</h3>
           <p>Primary dev machine. Tauri builds, PowerShell scripts, GPU testing.</p>
         </a>
         <a href="platforms.html#tab-mac" class="card reveal" style="text-decoration:none;">
+          <div class="card-art">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="#444"><path d="M25.2 5.4c-1.2 1.4-3.2 2.4-5.1 2.3-.2-2 .7-4.1 1.8-5.4 1.2-1.4 3.4-2.4 5.1-2.5.2 2.2-.7 4.3-1.8 5.6zm1.8 2.9c-2.9-.2-5.3 1.6-6.6 1.6s-3.5-1.5-5.7-1.5c-2.9 0-5.6 1.7-7.1 4.3-3 5.3-.8 13.1 2.2 17.4 1.4 2.1 3.2 4.4 5.5 4.3 2.2-.1 3-1.4 5.6-1.4s3.4 1.4 5.7 1.3c2.4-.1 3.9-2.1 5.3-4.2 1-1.4 1.3-2.1 2.1-3.7-5.4-2.1-6.3-9.8-1-12.7-1.5-1.9-3.7-3-5.9-5.4z"/></svg>
+          </div>
           <h3>Mac</h3>
           <p>Cross-platform builds, Safari testing, shell configs.</p>
         </a>
         <a href="platforms.html#tab-linux" class="card reveal" style="text-decoration:none;">
+          <div class="card-art">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="#444"><path d="M20 2C14.5 2 11 7.5 11 12c0 3.5 1 6.5 2.5 8.8-2 1.2-5 3.2-6 6.2-1 2.8 0 6 3 8C12.5 36.5 16 37 19 36.8c1.5-.1 3-.2 4-.2s2.5.1 4 .2c3 .2 6.5-.3 8.5-1.8 3-2 4-5.2 3-8-1-3-4-5-6-6.2C34 18.5 35 15.5 35 12c0-4.5-3.5-10-9-10h-6zm-2.5 7c1 0 2 .8 2 2s-1 2-2 2-2-.8-2-2 1-2 2-2zm6 0c1 0 2 .8 2 2s-1 2-2 2-2-.8-2-2 1-2 2-2zM16 15c.6 1.2 2.2 2 4 2s3.4-.8 4-2c.2.5.2 1 0 1.5-.6 1.2-2.2 2-4 2s-3.4-.8-4-2c-.2-.5-.2-1 0-1.5z"/></svg>
+          </div>
           <h3>Linux</h3>
           <p>Servers, networking, security research.</p>
         </a>

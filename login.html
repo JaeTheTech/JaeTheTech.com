@@ -10,7 +10,19 @@
 
   <div class="login-wrapper">
     <div class="login-card">
-      <div class="login-icon">🔒</div>
+      <div class="login-art">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Shield -->
+          <path d="M32 4 L52 14 L52 32 C52 46 42 54 32 60 C22 54 12 46 12 32 L12 14 Z" fill="rgba(255,255,255,.02)"/>
+          <!-- Lock body -->
+          <rect x="23" y="28" width="18" height="14" rx="2" fill="rgba(255,255,255,.04)"/>
+          <!-- Lock shackle -->
+          <path d="M26 28 V22 C26 18.7 28.7 16 32 16 C35.3 16 38 18.7 38 22 V28" fill="none"/>
+          <!-- Keyhole -->
+          <circle cx="32" cy="34" r="2" fill="#444" stroke="none"/>
+          <line x1="32" y1="36" x2="32" y2="39"/>
+        </svg>
+      </div>
       <h1 class="login-title">JaeTheTech</h1>
 
       <!-- Tab toggle: Login / Sign Up -->
@@ -47,14 +59,14 @@
         <!-- Privacy tips -->
         <div class="privacy-tips">
           <div class="privacy-tip">
-            <span class="privacy-tip-icon">📧</span>
+            <span class="art-icon privacy-tip-icon" style="width:20px;height:20px"><svg viewBox="0 0 20 20" fill="none" stroke="#666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="16" height="12" rx="2"/><polyline points="2,5 10,11 18,5"/></svg></span>
             <div>
               <strong>Use a forwarding email</strong>
               <p>We recommend <a href="https://addy.io" target="_blank" rel="noopener">addy.io</a> — keeps your real email private.</p>
             </div>
           </div>
           <div class="privacy-tip">
-            <span class="privacy-tip-icon">🔐</span>
+            <span class="art-icon privacy-tip-icon" style="width:20px;height:20px"><svg viewBox="0 0 20 20" fill="none" stroke="#666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L16 5 V10 C16 14.5 13 17 10 19 C7 17 4 14.5 4 10 V5 Z"/><polyline points="7,10 9.5,12.5 13.5,7.5"/></svg></span>
             <div>
               <strong>Encrypt your traffic</strong>
               <p>Use <a href="https://nextdns.io" target="_blank" rel="noopener">NextDNS</a> on your devices for encrypted DNS.</p>
