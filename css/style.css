@@ -655,6 +655,7 @@ button, input, select, textarea {
 .login-features {
   margin-top: 32px;
   display: flex; flex-direction: column; gap: 12px;
+  width: 100%; max-width: 400px;
 }
 .login-feature {
   display: flex; align-items: start; gap: 14px;
@@ -799,6 +800,7 @@ button, input, select, textarea {
 .login-wrapper {
   min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
   padding: 24px;
   background: var(--bg);
   position: relative;
