@@ -139,6 +139,26 @@
       });
   }
 
+  /* ── Auth-aware nav: show Dashboard if logged in ──────── */
+  (function () {
+    try {
+      var data = JSON.parse(sessionStorage.getItem('jtt_auth'));
+      if (!data || !data.token) return;
+      var elapsed = Date.now() - data.ts;
+      if (elapsed > data.ttl) return; /* expired */
+
+      var navLinks = document.querySelector('.nav-links');
+      if (!navLinks) return;
+
+      /* Replace "Login" with "Dashboard" */
+      var loginLink = navLinks.querySelector('a[href="login.html"]');
+      if (loginLink) {
+        loginLink.textContent = 'Dashboard';
+        loginLink.href = 'dashboard.html';
+      }
+    } catch (e) {}
+  })();
+
   /* ── Helpers ─────────────────────────────────────────── */
   function timeAgo(date) {
     var s = Math.floor((Date.now() - date) / 1000);

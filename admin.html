@@ -37,7 +37,7 @@
   <!-- Dashboard -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title reveal">Site Overview</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Site Overview</h2>
 
       <div class="grid-3">
         <div class="card reveal">
@@ -59,7 +59,7 @@
   <!-- Staff Management (admin only) -->
   <section class="section section-alt" id="staff-section">
     <div class="container">
-      <h2 class="section-title reveal">Staff Management</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Staff Management</h2>
       <p class="section-intro reveal">Add or remove staff. Staff get admin access but can't manage the team.</p>
 
       <div class="staff-add-row reveal">
@@ -76,7 +76,7 @@
   <!-- Vault -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title reveal">Vault</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Vault</h2>
       <p class="section-intro reveal">Notes stored in your browser. Only visible when logged in.</p>
 
       <div style="margin-bottom:16px;">
@@ -99,7 +99,7 @@
   <!-- Quick Links -->
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title reveal">Site Pages</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Site Pages</h2>
 
       <div class="grid-3">
         <a href="index.html" class="card reveal" style="text-decoration:none;">
@@ -133,7 +133,7 @@
   <!-- Session Info -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title reveal">Session</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Session</h2>
       <div class="stats reveal">
         <div class="stat">
           <div class="stat-val" id="session-time">--</div>
@@ -150,14 +150,39 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="platforms.html">Platforms</a>
-        <a href="development.html">Development</a>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-brand"><span class="art-icon" style="width:20px;height:20px"><svg viewBox="0 0 20 20" fill="#f0f0f0" stroke="none"><polygon points="11,1 4,11 9,11 7,19 16,9 11,9"/></svg></span> JaeTheTech</a>
+          <p>Tech, code, hardware, security — built from scratch by one developer with nearly a decade in the game.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Site</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="platforms.html">Platforms</a>
+          <a href="development.html">Development</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://ko-fi.com/jaethetech" target="_blank" rel="noopener">Ko-fi</a>
+          <a href="https://throne.com/jaethetech" target="_blank" rel="noopener">Throne</a>
+          <a href="https://www.linkedin.com/in/jaegergrs" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="footer-col">
+          <h4>More</h4>
+          <a href="https://x.com/SvartSecurity" target="_blank" rel="noopener">Svart Security</a>
+          <a href="admin.html">Admin</a>
+        </div>
       </div>
-      <p>&copy; 2026 JaeTheTech</p>
+      <div class="footer-bottom">
+        <p>&copy; 2026 JaeTheTech</p>
+        <div class="footer-bottom-links">
+          <a href="about.html">About</a>
+          <a href="#" id="footer-logout" style="color:#d9534f;">Logout</a>
+        </div>
+      </div>
     </div>
   </footer>
 
@@ -203,6 +228,12 @@
 
     /* Logout */
     document.getElementById('logout-btn').addEventListener('click', function (e) {
+      e.preventDefault();
+      sessionStorage.removeItem('jtt_auth');
+      window.location.replace('login.html');
+    });
+    var footerLogout = document.getElementById('footer-logout');
+    if (footerLogout) footerLogout.addEventListener('click', function (e) {
       e.preventDefault();
       sessionStorage.removeItem('jtt_auth');
       window.location.replace('login.html');

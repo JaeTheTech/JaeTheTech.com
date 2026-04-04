@@ -37,7 +37,7 @@
   <!-- App Codes Section -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title reveal">App Codes</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>App Codes</h2>
       <p class="section-intro reveal">Generate a JTT code to sign into apps. Single-use, 2 minute expiry, gone after entry.</p>
 
       <div class="app-code-panel reveal">
@@ -72,7 +72,7 @@
   <!-- Privacy Section -->
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title reveal">Privacy</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Privacy</h2>
 
       <div class="grid-2" style="gap:20px;">
         <div class="card reveal">
@@ -98,7 +98,7 @@
   <!-- Session Info -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title reveal">Session</h2>
+      <h2 class="section-title reveal"><span class="accent">◆</span>Session</h2>
       <div class="stats reveal">
         <div class="stat">
           <div class="stat-val" id="session-time">--</div>
@@ -115,14 +115,39 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="platforms.html">Platforms</a>
-        <a href="development.html">Development</a>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-brand"><span class="art-icon" style="width:20px;height:20px"><svg viewBox="0 0 20 20" fill="#f0f0f0" stroke="none"><polygon points="11,1 4,11 9,11 7,19 16,9 11,9"/></svg></span> JaeTheTech</a>
+          <p>Tech, code, hardware, security — built from scratch by one developer with nearly a decade in the game.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Site</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="platforms.html">Platforms</a>
+          <a href="development.html">Development</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://ko-fi.com/jaethetech" target="_blank" rel="noopener">Ko-fi</a>
+          <a href="https://throne.com/jaethetech" target="_blank" rel="noopener">Throne</a>
+          <a href="https://www.linkedin.com/in/jaegergrs" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="footer-col">
+          <h4>More</h4>
+          <a href="https://x.com/SvartSecurity" target="_blank" rel="noopener">Svart Security</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
       </div>
-      <p>&copy; 2026 JaeTheTech</p>
+      <div class="footer-bottom">
+        <p>&copy; 2026 JaeTheTech</p>
+        <div class="footer-bottom-links">
+          <a href="about.html">About</a>
+          <a href="#" id="footer-logout" style="color:#d9534f;">Logout</a>
+        </div>
+      </div>
     </div>
   </footer>
 
@@ -153,6 +178,12 @@
 
     /* Logout */
     document.getElementById('logout-btn').addEventListener('click', function (e) {
+      e.preventDefault();
+      sessionStorage.removeItem('jtt_auth');
+      window.location.replace('login.html');
+    });
+    var footerLogout = document.getElementById('footer-logout');
+    if (footerLogout) footerLogout.addEventListener('click', function (e) {
       e.preventDefault();
       sessionStorage.removeItem('jtt_auth');
       window.location.replace('login.html');
