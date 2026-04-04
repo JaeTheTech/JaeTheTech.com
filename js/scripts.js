@@ -89,7 +89,7 @@
       .then(function (res) { return res.json(); })
       .then(function (repos) {
         if (!repos.length || repos.message) {
-          repoContainer.innerHTML = '<div class="card"><div class="card-icon">⚠️</div><h3>Could not load repos</h3></div>';
+          repoContainer.innerHTML = '<div class="card"><h3>Could not load repos</h3></div>';
           return;
         }
 
@@ -132,10 +132,10 @@
           html += '</div></a>';
         });
 
-        repoContainer.innerHTML = html || '<div class="card"><div class="card-icon">📭</div><h3>No public repos yet</h3></div>';
+        repoContainer.innerHTML = html || '<div class="card"><h3>No public repos yet</h3></div>';
       })
       .catch(function () {
-        repoContainer.innerHTML = '<div class="card"><div class="card-icon">⚠️</div><h3>Could not load repos</h3></div>';
+        repoContainer.innerHTML = '<div class="card"><h3>Could not load repos</h3></div>';
       });
   }
 

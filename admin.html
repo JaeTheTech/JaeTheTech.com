@@ -29,7 +29,7 @@
   <!-- Page Header -->
   <header class="page-header">
     <div class="container">
-      <h1>🔒 Admin Dashboard</h1>
+      <h1>Admin</h1>
       <p>Authenticated as <strong id="auth-email">—</strong> — <span id="auth-role" class="role-badge">—</span></p>
     </div>
   </header>
@@ -37,24 +37,20 @@
   <!-- Dashboard -->
   <section class="section">
     <div class="container">
-      <p class="section-label reveal">Overview</p>
-      <h2 class="section-title reveal">Site Controls</h2>
+      <h2 class="section-title reveal">Site Overview</h2>
 
       <div class="grid-3">
         <div class="card reveal">
-          <div class="card-icon">📄</div>
           <h3>Pages</h3>
           <p>8 pages — Home, About, Projects, Platforms, Development, Login, Dashboard, Admin.</p>
         </div>
         <div class="card reveal">
-          <div class="card-icon">🎨</div>
           <h3>Theme</h3>
-          <p>Grey / White / Black — synced with Personal AI palette.</p>
+          <p>Grey / white / black. Same palette as Personal AI.</p>
         </div>
         <div class="card reveal">
-          <div class="card-icon">🔒</div>
           <h3>Auth</h3>
-          <p>Cloudflare Worker + Email Routing. No passwords. Disposable codes. Roles: admin, staff, user.</p>
+          <p>Cloudflare Worker + Email Routing. No passwords. Disposable codes. Role-based access.</p>
         </div>
       </div>
     </div>
@@ -63,9 +59,8 @@
   <!-- Staff Management (admin only) -->
   <section class="section section-alt" id="staff-section">
     <div class="container">
-      <p class="section-label reveal">Team</p>
-      <h2 class="section-title reveal">👥 Staff Management</h2>
-      <p class="section-intro reveal">Add or remove staff members. Staff get access to admin but not team management.</p>
+      <h2 class="section-title reveal">Staff Management</h2>
+      <p class="section-intro reveal">Add or remove staff. Staff get admin access but can't manage the team.</p>
 
       <div class="staff-add-row reveal">
         <input class="login-input" id="staff-email-input" type="email" placeholder="Email address" style="flex:1;">
@@ -81,9 +76,8 @@
   <!-- Vault -->
   <section class="section">
     <div class="container">
-      <p class="section-label reveal">Private</p>
-      <h2 class="section-title reveal">🔐 Vault</h2>
-      <p class="section-intro reveal">Encrypted notes stored in your browser. Only visible when logged in.</p>
+      <h2 class="section-title reveal">Vault</h2>
+      <p class="section-intro reveal">Notes stored in your browser. Only visible when logged in.</p>
 
       <div style="margin-bottom:16px;">
         <textarea id="vault-input" class="login-input" style="width:100%;min-height:120px;resize:vertical;font-family:var(--mono);font-size:13px;" placeholder="Type a note, link, key, or anything private…"></textarea>
@@ -105,39 +99,32 @@
   <!-- Quick Links -->
   <section class="section section-alt">
     <div class="container">
-      <p class="section-label reveal">Quick Links</p>
       <h2 class="section-title reveal">Site Pages</h2>
 
       <div class="grid-3">
         <a href="index.html" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">🏠</div>
           <h3>Home</h3>
-          <p>Landing page with hero, stats and connect links.</p>
+          <p>Landing page with hero, stats and links.</p>
         </a>
         <a href="about.html" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">👤</div>
           <h3>About</h3>
-          <p>Bio, skills, stats and social links.</p>
+          <p>Bio, skills, setup and links.</p>
         </a>
         <a href="projects.html" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">⚡</div>
           <h3>Projects</h3>
           <p>Personal AI and live GitHub repos.</p>
         </a>
         <a href="platforms.html" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">💻</div>
           <h3>Platforms</h3>
-          <p>Windows, Mac and Linux projects.</p>
+          <p>Windows, Mac and Linux work.</p>
         </a>
         <a href="development.html" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">🌱</div>
           <h3>Development</h3>
-          <p>Personal growth, health and fitness.</p>
+          <p>What I'm learning and building next.</p>
         </a>
         <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">🐙</div>
           <h3>GitHub</h3>
-          <p>View all repos and contributions.</p>
+          <p>All repos and contributions.</p>
         </a>
       </div>
     </div>
@@ -146,8 +133,7 @@
   <!-- Session Info -->
   <section class="section">
     <div class="container">
-      <p class="section-label reveal">Session</p>
-      <h2 class="section-title reveal">Current Session</h2>
+      <h2 class="section-title reveal">Session</h2>
       <div class="stats reveal">
         <div class="stat">
           <div class="stat-val" id="session-time">--</div>
@@ -171,7 +157,7 @@
         <a href="platforms.html">Platforms</a>
         <a href="development.html">Development</a>
       </div>
-      <p>&copy; 2026 JaeTheTech. All rights reserved.</p>
+      <p>&copy; 2026 JaeTheTech</p>
     </div>
   </footer>
 

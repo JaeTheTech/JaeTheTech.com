@@ -29,7 +29,7 @@
   <!-- Page Header -->
   <header class="page-header">
     <div class="container">
-      <h1>👤 Dashboard</h1>
+      <h1>Dashboard</h1>
       <p>Signed in as <strong id="auth-email">—</strong></p>
     </div>
   </header>
@@ -37,9 +37,8 @@
   <!-- App Codes Section -->
   <section class="section">
     <div class="container">
-      <p class="section-label reveal">Secure Access</p>
       <h2 class="section-title reveal">App Codes</h2>
-      <p class="section-intro reveal">Generate a secure JTT code to sign into apps. Codes are single-use, expire in 2 minutes, and self-destruct after use. No one gets the same code twice.</p>
+      <p class="section-intro reveal">Generate a JTT code to sign into apps. Single-use, 2 minute expiry, gone after entry.</p>
 
       <div class="app-code-panel reveal">
         <div class="app-code-display" id="app-code-display">
@@ -55,19 +54,16 @@
 
       <div class="grid-3" style="margin-top:32px;">
         <div class="card reveal">
-          <div class="card-icon">🔑</div>
           <h3>JTT Prefix</h3>
-          <p>All app codes start with JTT followed by 12 secure alphanumeric characters.</p>
+          <p>All codes start with JTT + 12 alphanumeric characters.</p>
         </div>
         <div class="card reveal">
-          <div class="card-icon">💨</div>
-          <h3>Self-Destruct</h3>
-          <p>Codes are wiped the instant they're used. No repeats, no reuse, no storage.</p>
+          <h3>Single Use</h3>
+          <p>Wiped the instant it's entered. No repeats, no reuse.</p>
         </div>
         <div class="card reveal">
-          <div class="card-icon">⏱</div>
-          <h3>2 Min Window</h3>
-          <p>Codes expire automatically after 2 minutes even if unused.</p>
+          <h3>2 Min Expiry</h3>
+          <p>Auto-expires after 2 minutes even if you don't use it.</p>
         </div>
       </div>
     </div>
@@ -76,29 +72,24 @@
   <!-- Privacy Section -->
   <section class="section section-alt">
     <div class="container">
-      <p class="section-label reveal">Privacy</p>
-      <h2 class="section-title reveal">Your Security</h2>
+      <h2 class="section-title reveal">Privacy</h2>
 
       <div class="grid-2" style="gap:20px;">
         <div class="card reveal">
-          <div class="card-icon">🚫</div>
           <h3>No Passwords</h3>
-          <p>We never track or store passwords. Your email is your only identity. Codes are fully disposable.</p>
+          <p>Email is your only identity. Codes are fully disposable — we never store them.</p>
         </div>
         <div class="card reveal">
-          <div class="card-icon">📧</div>
           <h3>Forwarding Email</h3>
-          <p>Use <a href="https://addy.io" target="_blank" rel="noopener" style="color:var(--bright);">addy.io</a> for a forwarding email to keep your real address private.</p>
+          <p>Use <a href="https://addy.io" target="_blank" rel="noopener" style="color:var(--bright);">addy.io</a> to keep your real address private.</p>
         </div>
         <div class="card reveal">
-          <div class="card-icon">🔐</div>
           <h3>Encrypted DNS</h3>
-          <p>Use <a href="https://nextdns.io" target="_blank" rel="noopener" style="color:var(--bright);">NextDNS</a> to encrypt your network traffic before it leaves your device.</p>
+          <p>Use <a href="https://nextdns.io" target="_blank" rel="noopener" style="color:var(--bright);">NextDNS</a> to encrypt your network traffic.</p>
         </div>
         <div class="card reveal">
-          <div class="card-icon">🖥️</div>
           <h3>Hardware Privacy</h3>
-          <p>Our apps randomise hardware IDs and MAC addresses. Your real device fingerprint stays hidden.</p>
+          <p>Our apps randomise hardware IDs and MAC addresses. Your device fingerprint stays hidden.</p>
         </div>
       </div>
     </div>
@@ -107,8 +98,7 @@
   <!-- Session Info -->
   <section class="section">
     <div class="container">
-      <p class="section-label reveal">Session</p>
-      <h2 class="section-title reveal">Current Session</h2>
+      <h2 class="section-title reveal">Session</h2>
       <div class="stats reveal">
         <div class="stat">
           <div class="stat-val" id="session-time">--</div>
@@ -132,7 +122,7 @@
         <a href="platforms.html">Platforms</a>
         <a href="development.html">Development</a>
       </div>
-      <p>&copy; 2026 JaeTheTech. All rights reserved.</p>
+      <p>&copy; 2026 JaeTheTech</p>
     </div>
   </footer>
 

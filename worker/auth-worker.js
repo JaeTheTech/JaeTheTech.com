@@ -184,32 +184,44 @@ async function handleSignup(request, env, cors) {
     return json({ error: 'Invalid email address' }, 400, cors);
   }
 
+  // Cap email length to prevent abuse
+  if (email.length > 254) {
+    return json({ error: 'Invalid email address' }, 400, cors);
+  }
+
   // Already exists?
   const existing = await getRole(env, email);
   if (existing) {
     return json({ error: 'Account already exists. Go to login.' }, 409, cors);
   }
 
+  // Already has a pending signup?
+  const pendingKey = `pending-signup:${email}`;
+  const pendingRaw = await env.AUTH_KV.get(pendingKey);
+  if (pendingRaw) {
+    return json({ error: 'Verification already sent. Check your email.' }, 429, cors);
+  }
+
   // Rate limit
   const rl = await rateCheck(env, email);
   if (!rl.ok) return json({ error: rl.msg }, 429, cors);
 
-  // Create user record (role: user)
-  await env.AUTH_KV.put(`user:${email}`, JSON.stringify({
-    role: 'user',
-    created: Date.now()
-  }));
-
-  // Send verification code
+  // Generate verification code
   const code = randomDigits(6);
-  await env.AUTH_KV.put(`code:${email}`, JSON.stringify({
-    code, attempts: 0, created: Date.now(), signup: true
+
+  // Store PENDING signup — user record only created after verification
+  await env.AUTH_KV.put(pendingKey, JSON.stringify({
+    code, attempts: 0, created: Date.now()
   }), { expirationTtl: CODE_TTL });
 
   await bumpRate(env, email);
 
+  // Send via Cloudflare Email
   const sent = await sendCodeEmail(env, email, code, true);
-  if (!sent) return json({ error: 'Failed to send email. Try again.' }, 500, cors);
+  if (!sent) {
+    await env.AUTH_KV.delete(pendingKey);
+    return json({ error: 'Failed to send email. Try again.' }, 500, cors);
+  }
 
   return json({ ok: true, message: 'Verification code sent' }, 200, cors);
 }

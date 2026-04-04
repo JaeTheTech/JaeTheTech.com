@@ -105,16 +105,6 @@ ul    { list-style: none; }
   pointer-events: none;
 }
 
-.hero-icon {
-  font-size: 52px; margin-bottom: 20px;
-  animation: pulse 2.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%      { transform: scale(1.08); opacity: .85; }
-}
-
 .hero h1 {
   font-size: clamp(36px, 6vw, 60px); font-weight: 800;
   color: var(--bright); letter-spacing: -1.5px;
@@ -159,12 +149,6 @@ ul    { list-style: none; }
   background: var(--bg2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-}
-
-.section-label {
-  font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 2.5px;
-  color: var(--muted); margin-bottom: 10px;
 }
 
 .section-title {
