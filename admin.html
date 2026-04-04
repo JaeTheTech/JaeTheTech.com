@@ -44,7 +44,7 @@
         <div class="card reveal">
           <div class="card-icon">📄</div>
           <h3>Pages</h3>
-          <p>6 pages active — Home, About, Projects, Development, Windows, Linux.</p>
+          <p>7 pages active — Home, About, Projects, Platforms, Development, Login, Admin.</p>
         </div>
         <div class="card reveal">
           <div class="card-icon">🎨</div>
@@ -54,14 +54,38 @@
         <div class="card reveal">
           <div class="card-icon">🔒</div>
           <h3>Auth</h3>
-          <p>EmailJS verification to codes@JaeTheTech.com. Session: 4 hours.</p>
+          <p>Cloudflare Worker + Resend email verification. Session: 4 hours.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Quick Links -->
+  <!-- Vault -->
   <section class="section section-alt">
+    <div class="container">
+      <p class="section-label reveal">Private</p>
+      <h2 class="section-title reveal">🔐 Vault</h2>
+      <p class="section-intro reveal">Encrypted notes stored in your browser. Only visible when logged in.</p>
+
+      <div style="margin-bottom:16px;">
+        <textarea id="vault-input" class="login-input" style="width:100%;min-height:120px;resize:vertical;font-family:var(--mono);font-size:13px;" placeholder="Type a note, link, key, or anything private…"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:24px;">
+        <button class="btn btn-primary" id="vault-save">Save Note</button>
+        <button class="btn" id="vault-clear-input">Clear</button>
+      </div>
+
+      <div id="vault-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+
+      <div style="margin-top:20px;">
+        <button class="btn" id="vault-export" style="font-size:12px;">Export All</button>
+        <button class="btn" id="vault-delete-all" style="font-size:12px;color:#d9534f;">Delete All</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="section">
     <div class="container">
       <p class="section-label reveal">Quick Links</p>
       <h2 class="section-title reveal">Site Pages</h2>
@@ -80,22 +104,22 @@
         <a href="projects.html" class="card reveal" style="text-decoration:none;">
           <div class="card-icon">⚡</div>
           <h3>Projects</h3>
-          <p>Personal AI and platform project cards.</p>
+          <p>Personal AI and live GitHub repos.</p>
+        </a>
+        <a href="platforms.html" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">💻</div>
+          <h3>Platforms</h3>
+          <p>Windows, Mac and Linux projects.</p>
         </a>
         <a href="development.html" class="card reveal" style="text-decoration:none;">
           <div class="card-icon">🌱</div>
           <h3>Development</h3>
           <p>Personal growth, health and fitness.</p>
         </a>
-        <a href="windows.html" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">🪟</div>
-          <h3>Windows</h3>
-          <p>Windows tools and system utilities.</p>
-        </a>
-        <a href="linux.html" class="card reveal" style="text-decoration:none;">
-          <div class="card-icon">🐧</div>
-          <h3>Linux</h3>
-          <p>Server configs, networking and security.</p>
+        <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">🐙</div>
+          <h3>GitHub</h3>
+          <p>View all repos and contributions.</p>
         </a>
       </div>
     </div>
@@ -165,6 +189,92 @@
       sessionStorage.removeItem('jtt_auth');
       window.location.replace('login.html');
     });
+
+    /* ── Vault ───────────────────────────────────────── */
+    (function () {
+      var VAULT_KEY = 'jtt_vault';
+      var input = document.getElementById('vault-input');
+      var list = document.getElementById('vault-list');
+
+      function getNotes() {
+        try { return JSON.parse(localStorage.getItem(VAULT_KEY) || '[]'); }
+        catch (e) { return []; }
+      }
+
+      function saveNotes(notes) {
+        localStorage.setItem(VAULT_KEY, JSON.stringify(notes));
+      }
+
+      function render() {
+        var notes = getNotes();
+        if (!notes.length) {
+          list.innerHTML = '<p style="color:var(--muted);font-size:13px;">No notes saved yet.</p>';
+          return;
+        }
+        var html = '';
+        notes.forEach(function (n, i) {
+          var date = new Date(n.ts).toLocaleString();
+          html += '<div class="card" style="padding:14px 18px;position:relative;">';
+          html += '<div style="font-size:12px;color:var(--muted);margin-bottom:6px;">' + date + '</div>';
+          html += '<pre style="white-space:pre-wrap;word-break:break-word;font-size:13px;color:var(--text);margin:0;font-family:var(--mono);">' + escapeHtml(n.text) + '</pre>';
+          html += '<button class="vault-delete-btn" data-idx="' + i + '" style="position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;" title="Delete">✕</button>';
+          html += '</div>';
+        });
+        list.innerHTML = html;
+
+        list.querySelectorAll('.vault-delete-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var idx = parseInt(btn.getAttribute('data-idx'));
+            var notes = getNotes();
+            notes.splice(idx, 1);
+            saveNotes(notes);
+            render();
+          });
+        });
+      }
+
+      function escapeHtml(str) {
+        var d = document.createElement('div');
+        d.appendChild(document.createTextNode(str));
+        return d.innerHTML;
+      }
+
+      document.getElementById('vault-save').addEventListener('click', function () {
+        var text = input.value.trim();
+        if (!text) return;
+        var notes = getNotes();
+        notes.unshift({ text: text, ts: Date.now() });
+        saveNotes(notes);
+        input.value = '';
+        render();
+      });
+
+      document.getElementById('vault-clear-input').addEventListener('click', function () {
+        input.value = '';
+        input.focus();
+      });
+
+      document.getElementById('vault-export').addEventListener('click', function () {
+        var notes = getNotes();
+        if (!notes.length) return;
+        var text = notes.map(function (n) {
+          return '[' + new Date(n.ts).toLocaleString() + ']\n' + n.text;
+        }).join('\n\n---\n\n');
+        var blob = new Blob([text], { type: 'text/plain' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'jaethetech-vault-' + new Date().toISOString().slice(0, 10) + '.txt';
+        a.click();
+      });
+
+      document.getElementById('vault-delete-all').addEventListener('click', function () {
+        if (!confirm('Delete ALL vault notes? This cannot be undone.')) return;
+        localStorage.removeItem(VAULT_KEY);
+        render();
+      });
+
+      render();
+    })();
   </script>
 </body>
 </html>
