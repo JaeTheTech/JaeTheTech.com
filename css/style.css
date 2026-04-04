@@ -106,6 +106,16 @@ button, input, select, textarea {
   border-radius: 1px;
 }
 
+.nav-cta {
+  padding: 6px 18px !important;
+  background: var(--bright) !important;
+  color: var(--bg) !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+}
+.nav-cta:hover { opacity: .85; }
+.nav-cta::after { display: none !important; }
+
 .nav-toggle {
   display: none; background: none; border: none;
   color: var(--bright); font-size: 24px; cursor: pointer;
