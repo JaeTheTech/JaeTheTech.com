@@ -47,6 +47,12 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
 
+    // Reject oversized bodies (64KB max)
+    const contentLength = parseInt(request.headers.get('Content-Length') || '0');
+    if (contentLength > 65536) {
+      return json({ error: 'Request too large' }, 413, corsHeaders);
+    }
+
     const url = new URL(request.url);
 
     try {
