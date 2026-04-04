@@ -1,113 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal Development - JaeTheTech</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <script src="assets/js/scripts.js" defer></script>
-  <style>
-    /* General Styles */
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      background-color: #3a3a3a; /* Slightly lighter dark grey background */
-      color: #fff; /* White text */
-    }
-
-    header {
-      text-align: center;
-      padding: 30px 20px;
-      background-color: #444; /* Slightly lighter grey for the header */
-      color: #fff;
-    }
-
-    nav {
-      background-color: #555; /* Darker grey for the navigation bar */
-      padding: 15px 0;
-      text-align: center;
-    }
-
-    nav a {
-      display: inline-block;
-      color: #fff;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: bold;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background-color: #666; /* Light grey box for buttons */
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    nav a:hover {
-      background-color: #fff; /* White highlight on hover */
-      color: #3a3a3a; /* Dark grey text on hover */
-    }
-
-    .header-content h1 {
-      margin: 0;
-      font-size: 2.8rem;
-    }
-
-    .header-content p {
-      margin: 10px 0 0;
-      font-size: 1.2rem;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    section {
-      margin-bottom: 30px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #444; /* Matches the header background */
-      color: #fff;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="JaeTheTech — Personal development, health, fitness and growth.">
+  <title>Development — JaeTheTech</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <div class="header-content">
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span>⚡</span> JaeTheTech</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="platforms.html">Platforms</a></li>
+        <li><a href="development.html" class="active">Development</a></li>
+        <li><a href="https://github.com/JaeTheTech" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
       <h1>Personal Development</h1>
-      <p>Explore my journey in health, fitness, and personal growth.</p>
+      <p>Health, fitness, and personal growth — the stuff outside the code editor.</p>
     </div>
   </header>
-  <nav>
-    <a href="about-me.html">About Me</a>
-    <a href="personal-development.html">Personal Development</a>
-    <a href="windows-projects.html">Windows Projects</a>
-    <a href="linux-projects.html">Linux Projects</a>
-  </nav>
-  <main>
-    <section>
-      <h2>Health and Fitness</h2>
-      <p>Discover my tips, routines, and experiences in maintaining a healthy lifestyle.</p>
-      <ul>
-        <li><strong>Fitness Routine:</strong> A breakdown of my weekly workout schedule.</li>
-        <li><strong>Healthy Eating:</strong> My favorite recipes and meal plans.</li>
-        <li><strong>Mental Wellness:</strong> Practices I follow to stay mentally fit.</li>
-      </ul>
-    </section>
-    <section>
-      <h2>Personal Growth</h2>
-      <p>Learn about the strategies I use to grow personally and professionally.</p>
-      <ul>
-        <li><strong>Time Management:</strong> How I organize my day for maximum productivity.</li>
-        <li><strong>Skill Development:</strong> Courses and resources I use to learn new skills.</li>
-        <li><strong>Goal Setting:</strong> My approach to setting and achieving goals.</li>
-      </ul>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 JaeTheTech. All rights reserved.</p>
+
+  <!-- Health & Fitness -->
+  <section class="section">
+    <div class="container">
+      <p class="section-label reveal">Wellness</p>
+      <h2 class="section-title reveal">Health &amp; Fitness</h2>
+      <p class="section-intro reveal">Tips, routines and experiences in maintaining a healthy lifestyle.</p>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="card-icon">🏋️</div>
+          <h3>Fitness Routine</h3>
+          <p>A breakdown of my weekly workout schedule and training approach.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🥗</div>
+          <h3>Healthy Eating</h3>
+          <p>Favourite recipes, meal plans and nutrition strategies that work.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🧠</div>
+          <h3>Mental Wellness</h3>
+          <p>Practices I follow to stay mentally sharp and balanced.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Personal Growth -->
+  <section class="section section-alt">
+    <div class="container">
+      <p class="section-label reveal">Growth</p>
+      <h2 class="section-title reveal">Personal Growth</h2>
+      <p class="section-intro reveal">Strategies I use to grow personally and professionally.</p>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="card-icon">⏱️</div>
+          <h3>Time Management</h3>
+          <p>How I organise my day for maximum productivity and focus.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">📚</div>
+          <h3>Skill Development</h3>
+          <p>Courses, resources and hands-on projects I use to learn new skills.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎯</div>
+          <h3>Goal Setting</h3>
+          <p>My approach to setting clear goals and tracking progress over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="platforms.html">Platforms</a>
+        <a href="development.html">Development</a>
+      </div>
+      <p>&copy; 2026 JaeTheTech. All rights reserved.</p>
+    </div>
   </footer>
+
+  <script src="js/scripts.js" defer></script>
 </body>
 </html>

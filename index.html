@@ -1,166 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JaeTheTech - Home</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <script src="assets/js/scripts.js" defer></script>
-  <style>
-    /* General Styles */
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      background-color: #2e2e2e; /* Dark grey background */
-      color: #fff; /* White text */
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      background-color: #444; /* Slightly lighter grey for the header */
-      color: #fff;
-    }
-
-    header h1 {
-      font-size: 3rem;
-      margin: 0;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      margin: 10px 0 0;
-    }
-
-    nav {
-      background-color: #555; /* Darker grey for the navigation bar */
-      padding: 15px 0;
-      text-align: center;
-    }
-
-    nav a {
-      display: inline-block;
-      color: #fff;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background-color: #666; /* Light grey box for buttons */
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    nav a:hover {
-      background-color: #666; /* Blue highlight on hover */
-      color: #fff;
-    }
-
-    .dropdown {
-      display: inline-block;
-      position: relative;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #666;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      display: block;
-      padding: 10px;
-      text-align: left;
-      color: #fff;
-      text-decoration: none;
-      background-color: #666;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #666;
-      color: #fff;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    section {
-      margin-bottom: 30px;
-    }
-
-    section h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    .link-row {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .link-row a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-      border: 2px solid #666;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    .link-row a:hover {
-      background-color: #666;
-      color: #fff;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #444;
-      color: #fff;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="JaeTheTech — Tech, coding, hardware and more.">
+  <title>JaeTheTech — Home</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>JaeTheTech</h1>
-    <p>Your hub for all things tech, from coding to hardware and more from myself.</p>
-  </header>
-  <nav>
-    <a href="index1.html">Home</a>
-    <a href="about-me.html">About Me</a>
-    <a href="personal-development.html">Personal Development</a>
-    <a href="windows-projects.html">Windows Projects</a>
-    <a href="linux-projects.html">Linux Projects</a>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span>⚡</span> JaeTheTech</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="platforms.html">Platforms</a></li>
+        <li><a href="development.html">Development</a></li>
+        <li><a href="https://github.com/JaeTheTech" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
   </nav>
-  <main>
-    <section>
-      <h2>Latest Tech Insights</h2>
-      <p>Stay updated with the latest trends in technology, coding, and hardware development.</p>
-    </section>
-    <section>
-      <h2>My Projects</h2>
-      <p>Check out my latest projects code and support links.</p>
-      <div class="link-row">
-        <a href="https://github.com/JaeTheTech" target="_blank">Visit my GitHub</a>
-        <a href="https://ko-fi.com/jaethetech" target="_blank">Support me via Kofi</a>
-        <a href="https://throne.com/jaethetech" target="_blank">Help me upgrade my setup</a>
-        <a href="https://www.linkedin.com/in/jaegergrs" target="_blank">Connect on LinkedIn</a>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-icon">⚡</div>
+    <h1>JaeTheTech</h1>
+    <p class="hero-sub">Your hub for all things tech — coding, hardware, security and everything in between.</p>
+    <div class="hero-cta">
+      <a href="projects.html" class="btn btn-primary">View Projects</a>
+      <a href="about.html" class="btn">About Me</a>
+    </div>
+  </section>
+
+  <!-- Latest Insights -->
+  <section class="section section-alt">
+    <div class="container">
+      <p class="section-label reveal">What's New</p>
+      <h2 class="section-title reveal">Latest Tech Insights</h2>
+      <p class="section-intro reveal">Stay updated with the latest trends in technology, coding, and hardware development.</p>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="card-icon">💻</div>
+          <h3>Coding</h3>
+          <p>Full-stack development, custom tools, and zero-dependency builds.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🔧</div>
+          <h3>Hardware</h3>
+          <p>PC builds, upgrades, benchmarks and hands-on hardware work.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🔒</div>
+          <h3>Security</h3>
+          <p>Privacy-first tools, network hardening and security research.</p>
+        </div>
       </div>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 JaeTheTech. All rights reserved.</p>
+    </div>
+  </section>
+
+  <!-- Quick Stats -->
+  <section class="section">
+    <div class="container">
+      <p class="section-label reveal">At a Glance</p>
+      <h2 class="section-title reveal">What I Do</h2>
+
+      <div class="grid-2">
+        <div class="stats reveal">
+          <div class="stat">
+            <div class="stat-val">9+</div>
+            <div class="stat-label">Years in Tech</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">100%</div>
+            <div class="stat-label">Custom Code</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">3</div>
+            <div class="stat-label">Platforms</div>
+          </div>
+          <div class="stat">
+            <div class="stat-val">∞</div>
+            <div class="stat-label">Curiosity</div>
+          </div>
+        </div>
+
+        <div class="content-section reveal">
+          <h2>Connect &amp; Support</h2>
+          <p>Check out my latest projects, code and support links.</p>
+          <div class="link-row">
+            <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://ko-fi.com/jaethetech" target="_blank" rel="noopener">Ko-fi</a>
+            <a href="https://throne.com/jaethetech" target="_blank" rel="noopener">Throne</a>
+            <a href="https://www.linkedin.com/in/jaegergrs" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="platforms.html">Platforms</a>
+        <a href="development.html">Development</a>
+      </div>
+      <p>&copy; 2026 JaeTheTech. All rights reserved.</p>
+    </div>
   </footer>
+
+  <script src="js/scripts.js" defer></script>
 </body>
 </html>

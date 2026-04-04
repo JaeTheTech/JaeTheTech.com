@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — JaeTheTech</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span>⚡</span> JaeTheTech</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="platforms.html">Platforms</a></li>
+        <li><a href="development.html">Development</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+        <li><a href="#" id="logout-btn" style="color:var(--neon-red,#d9534f);">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <h1>🔒 Admin Dashboard</h1>
+      <p>Authenticated as <strong id="auth-email">—</strong> — session active.</p>
+    </div>
+  </header>
+
+  <!-- Dashboard -->
+  <section class="section">
+    <div class="container">
+      <p class="section-label reveal">Overview</p>
+      <h2 class="section-title reveal">Site Controls</h2>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="card-icon">📄</div>
+          <h3>Pages</h3>
+          <p>6 pages active — Home, About, Projects, Development, Windows, Linux.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🎨</div>
+          <h3>Theme</h3>
+          <p>Grey / White / Black — synced with Personal AI palette.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card-icon">🔒</div>
+          <h3>Auth</h3>
+          <p>EmailJS verification to codes@JaeTheTech.com. Session: 4 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="section section-alt">
+    <div class="container">
+      <p class="section-label reveal">Quick Links</p>
+      <h2 class="section-title reveal">Site Pages</h2>
+
+      <div class="grid-3">
+        <a href="index.html" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">🏠</div>
+          <h3>Home</h3>
+          <p>Landing page with hero, stats and connect links.</p>
+        </a>
+        <a href="about.html" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">👤</div>
+          <h3>About</h3>
+          <p>Bio, skills, stats and social links.</p>
+        </a>
+        <a href="projects.html" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">⚡</div>
+          <h3>Projects</h3>
+          <p>NeonCortex and platform project cards.</p>
+        </a>
+        <a href="development.html" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">🌱</div>
+          <h3>Development</h3>
+          <p>Personal growth, health and fitness.</p>
+        </a>
+        <a href="windows.html" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">🪟</div>
+          <h3>Windows</h3>
+          <p>Windows tools and system utilities.</p>
+        </a>
+        <a href="linux.html" class="card reveal" style="text-decoration:none;">
+          <div class="card-icon">🐧</div>
+          <h3>Linux</h3>
+          <p>Server configs, networking and security.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Session Info -->
+  <section class="section">
+    <div class="container">
+      <p class="section-label reveal">Session</p>
+      <h2 class="section-title reveal">Current Session</h2>
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="stat-val" id="session-time">--</div>
+          <div class="stat-label">Minutes Remaining</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">4h</div>
+          <div class="stat-label">Session Length</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="platforms.html">Platforms</a>
+        <a href="development.html">Development</a>
+      </div>
+      <p>&copy; 2026 JaeTheTech. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/scripts.js" defer></script>
+  <script>
+    /* Auth guard — kick to login if no valid session */
+    requireAuth();
+
+    /* Session timer */
+    (function () {
+      var KEY = 'jtt_auth';
+      function update() {
+        try {
+          var data = JSON.parse(sessionStorage.getItem(KEY));
+          var left = Math.max(0, Math.round((data.ttl - (Date.now() - data.ts)) / 60000));
+          document.getElementById('session-time').textContent = left;
+        } catch (e) {}
+      }
+      update();
+      setInterval(update, 30000);
+
+      /* Show logged-in email */
+      try {
+        var d = JSON.parse(sessionStorage.getItem(KEY));
+        if (d && d.email) document.getElementById('auth-email').textContent = d.email;
+      } catch (e) {}
+    })();
+
+    /* Logout */
+    document.getElementById('logout-btn').addEventListener('click', function (e) {
+      e.preventDefault();
+      sessionStorage.removeItem('jtt_auth');
+      window.location.replace('login.html');
+    });
+  </script>
+</body>
+</html>

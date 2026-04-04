@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Login — JaeTheTech</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-icon">🔒</div>
+      <h1 class="login-title">JaeTheTech</h1>
+      <p class="login-sub">Private access — authorised users only.</p>
+      <p style="margin-bottom:24px;"><a href="index.html" style="color:var(--muted);font-size:13px;">← Back to site</a></p>
+
+      <!-- Step 1: Email -->
+      <form id="email-step" class="login-form">
+        <label class="login-label" for="login-email">Email</label>
+        <input class="login-input" id="login-email" type="email" placeholder="Enter your email" autocomplete="email" required>
+        <button class="btn btn-primary login-btn" type="submit">Send Code</button>
+      </form>
+
+      <!-- Step 2: Code verification -->
+      <form id="code-step" class="login-form" style="display:none;">
+        <p class="login-sent-msg">A 6-digit code was sent to <strong id="sent-to"></strong></p>
+        <label class="login-label" for="login-code">Verification Code</label>
+        <input class="login-input login-code-input" id="login-code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
+        <button class="btn btn-primary login-btn" type="submit">Verify</button>
+        <button class="login-link" type="button" id="resend-btn">Resend code</button>
+      </form>
+
+      <div id="login-error" class="login-error" style="display:none;"></div>
+      <div id="login-spinner" class="login-spinner" style="display:none;">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>

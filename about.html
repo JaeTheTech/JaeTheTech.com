@@ -1,104 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Me - JaeTheTech</title>
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <script src="assets/js/scripts.js" defer></script>
-  <style>
-    /* General Styles */
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      background-color: #3a3a3a; /* Slightly lighter dark grey background */
-      color: #fff; /* White text */
-    }
-
-    header {
-      text-align: center;
-      padding: 30px 20px;
-      background-color: #444; /* Slightly lighter grey for the header */
-      color: #fff;
-    }
-
-    nav {
-      background-color: #555; /* Darker grey for the navigation bar */
-      padding: 15px 0;
-      text-align: center;
-    }
-
-    nav a {
-      display: inline-block;
-      color: #fff;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: bold;
-      padding: 10px 20px;
-      border-radius: 5px;
-      background-color: #666; /* Light grey box for buttons */
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    nav a:hover {
-      background-color: #fff; /* White highlight on hover */
-      color: #3a3a3a; /* Dark grey text on hover */
-    }
-
-    .header-content h1 {
-      margin: 0;
-      font-size: 2.8rem;
-    }
-
-    .header-content p {
-      margin: 10px 0 0;
-      font-size: 1.2rem;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    section {
-      margin-bottom: 30px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #444; /* Matches the header background */
-      color: #fff;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About JaeTheTech — nearly a decade in tech, coding, hardware and security.">
+  <title>About — JaeTheTech</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <div class="header-content">
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav-brand"><span>⚡</span> JaeTheTech</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="platforms.html">Platforms</a></li>
+        <li><a href="development.html">Development</a></li>
+        <li><a href="https://github.com/JaeTheTech" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
       <h1>About Me</h1>
+      <p>Nearly a decade in tech — building, breaking and learning every day.</p>
     </div>
   </header>
-  <nav>
-    <a href="about-me.html">About Me</a>
-    <a href="personal-development.html">Personal Development</a>
-    <a href="windows-projects.html">Windows Projects</a>
-    <a href="linux-projects.html">Linux Projects</a>
-  </nav>
-  <main>
-    <section>
-      <h2>About Me</h2>
-      <p>Hi, I'm Jaeger, and I'm passionate about technology and cloud computing. Join me on my journey!Just a guy called Jaeger who has spent nearly 9 years in November building computers, diving into the networking and coding side.</p>
-    </section>
-    <section>
-      <h2>Links to Projects + More</h2>
-      <p><a href="https://github.com/JaeTheTech" target="_blank">Visit my GitHub</a></p>
-      <p><a href="https://ko-fi.com/jaethetech" target="_blank">Support me via Kofi</a></p>
-      <p><a href="https://throne.com/jaethetech" target="_blank">Help me upgrade my setup</a></p>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 JaeTheTech. All rights reserved.</p>
+
+  <!-- Bio -->
+  <section class="section">
+    <div class="container">
+      <div class="grid-2">
+        <div>
+          <div class="content-section reveal">
+            <h2>Who I Am</h2>
+            <p>Hi, I'm Jaeger. I've spent nearly 9 years building computers, diving into networking and coding. I'm passionate about technology, cloud computing, security and building tools that solve real problems — with zero third-party UI frameworks.</p>
+            <p>I run <strong>Svart Security</strong> (@SvartSecurity on X) and build everything from personal AI workstations to system utilities across Windows, Mac and Linux.</p>
+          </div>
+
+          <div class="content-section reveal">
+            <h2>What I Work With</h2>
+            <div class="skill-tags">
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">HTML / CSS</span>
+              <span class="skill-tag">Rust</span>
+              <span class="skill-tag">Tauri</span>
+              <span class="skill-tag">Networking</span>
+              <span class="skill-tag">Linux</span>
+              <span class="skill-tag">Windows</span>
+              <span class="skill-tag">Security</span>
+              <span class="skill-tag">AI / ML</span>
+              <span class="skill-tag">Hardware</span>
+              <span class="skill-tag">Cloud</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="stats reveal">
+            <div class="stat">
+              <div class="stat-val">9+</div>
+              <div class="stat-label">Years in Tech</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">100%</div>
+              <div class="stat-label">Custom Code</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">3</div>
+              <div class="stat-label">Platforms</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">0</div>
+              <div class="stat-label">UI Frameworks</div>
+            </div>
+          </div>
+
+          <div class="content-section reveal" style="margin-top: 20px;">
+            <h2>Connect &amp; Support</h2>
+            <div class="link-row">
+              <a href="https://github.com/JaeTheTech" target="_blank" rel="noopener">GitHub</a>
+              <a href="https://ko-fi.com/jaethetech" target="_blank" rel="noopener">Ko-fi</a>
+              <a href="https://throne.com/jaethetech" target="_blank" rel="noopener">Throne</a>
+              <a href="https://www.linkedin.com/in/jaegergrs" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="platforms.html">Platforms</a>
+        <a href="development.html">Development</a>
+      </div>
+      <p>&copy; 2026 JaeTheTech. All rights reserved.</p>
+    </div>
   </footer>
+
+  <script src="js/scripts.js" defer></script>
 </body>
 </html>
