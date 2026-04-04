@@ -15,7 +15,8 @@ export default {
     const ALLOWED_ORIGINS = [
       'https://jaethetech.com',
       'https://www.jaethetech.com',
-      'http://127.0.0.1:8080',   // local dev
+      'https://jaethetech-site.pages.dev',
+      'http://127.0.0.1:8080',
       'http://localhost:8080'
     ];
 
