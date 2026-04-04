@@ -80,4 +80,79 @@
       activateTab(hash);
     }
   }
+
+  /* ── GitHub Repos (Projects page) ────────────────────── */
+  var repoContainer = document.getElementById('github-repos');
+
+  if (repoContainer) {
+    fetch('https://api.github.com/users/JaeTheTech/repos?sort=updated&per_page=50')
+      .then(function (res) { return res.json(); })
+      .then(function (repos) {
+        if (!repos.length || repos.message) {
+          repoContainer.innerHTML = '<div class="card"><div class="card-icon">⚠️</div><h3>Could not load repos</h3></div>';
+          return;
+        }
+
+        /* Sort: starred (hot) first, then by most recently pushed */
+        repos.sort(function (a, b) {
+          var scoreA = (a.stargazers_count || 0) + (a.forks_count || 0) * 2;
+          var scoreB = (b.stargazers_count || 0) + (b.forks_count || 0) * 2;
+          if (scoreB !== scoreA) return scoreB - scoreA;
+          return new Date(b.pushed_at) - new Date(a.pushed_at);
+        });
+
+        /* Language → icon map */
+        var langIcon = {
+          'JavaScript': '🟨', 'TypeScript': '🔷', 'HTML': '🌐',
+          'CSS': '🎨', 'Python': '🐍', 'Rust': '🦀',
+          'Shell': '🐚', 'Go': '🔵', 'C#': '💜', 'Java': '☕'
+        };
+
+        var html = '';
+        repos.forEach(function (repo) {
+          if (repo.fork) return; /* skip forks */
+
+          var stars = repo.stargazers_count || 0;
+          var forks = repo.forks_count || 0;
+          var hot = (stars + forks * 2) >= 3;
+          var icon = langIcon[repo.language] || '📁';
+          var pushed = new Date(repo.pushed_at);
+          var ago = timeAgo(pushed);
+
+          html += '<a href="' + repo.html_url + '" target="_blank" rel="noopener" class="card reveal visible github-repo-card" style="text-decoration:none;">';
+          html += '<div class="card-icon">' + icon + '</div>';
+          if (hot) html += '<span class="repo-hot">🔥 Hot</span>';
+          html += '<h3>' + escapeHtml(repo.name) + '</h3>';
+          html += '<p>' + escapeHtml(repo.description || 'No description') + '</p>';
+          html += '<div class="repo-meta">';
+          if (repo.language) html += '<span class="repo-lang">' + escapeHtml(repo.language) + '</span>';
+          if (stars) html += '<span>⭐ ' + stars + '</span>';
+          if (forks) html += '<span>🍴 ' + forks + '</span>';
+          html += '<span>Updated ' + ago + '</span>';
+          html += '</div></a>';
+        });
+
+        repoContainer.innerHTML = html || '<div class="card"><div class="card-icon">📭</div><h3>No public repos yet</h3></div>';
+      })
+      .catch(function () {
+        repoContainer.innerHTML = '<div class="card"><div class="card-icon">⚠️</div><h3>Could not load repos</h3></div>';
+      });
+  }
+
+  /* ── Helpers ─────────────────────────────────────────── */
+  function timeAgo(date) {
+    var s = Math.floor((Date.now() - date) / 1000);
+    if (s < 60) return 'just now';
+    var m = Math.floor(s / 60); if (m < 60) return m + 'm ago';
+    var h = Math.floor(m / 60); if (h < 24) return h + 'h ago';
+    var d = Math.floor(h / 24); if (d < 30) return d + 'd ago';
+    var mo = Math.floor(d / 30); if (mo < 12) return mo + 'mo ago';
+    return Math.floor(mo / 12) + 'y ago';
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
 })();
