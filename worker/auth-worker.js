@@ -104,8 +104,13 @@ export default {
    ═════════════════════════════════════════════════════════ */
 
 async function handleSendCode(request, env, cors) {
-  const body = await request.json();
+  const body = await safeJson(request);
+  if (!body) return json({ error: 'Invalid request' }, 400, cors);
   const email = clean(body.email);
+
+  if (email.length > 254) {
+    return json({ error: 'Invalid email address' }, 400, cors);
+  }
 
   if (!validEmail(email)) {
     return json({ error: 'Invalid email address' }, 400, cors);
@@ -139,7 +144,8 @@ async function handleSendCode(request, env, cors) {
 }
 
 async function handleVerifyCode(request, env, cors) {
-  const body = await request.json();
+  const body = await safeJson(request);
+  if (!body) return json({ error: 'Invalid request' }, 400, cors);
   const email = clean(body.email);
   const entered = (body.code || '').trim();
 
@@ -147,8 +153,18 @@ async function handleVerifyCode(request, env, cors) {
     return json({ error: 'Email and code required' }, 400, cors);
   }
 
-  const kvKey = `code:${email}`;
-  const raw = await env.AUTH_KV.get(kvKey);
+  // Check login code first, then pending signup
+  const loginKey = `code:${email}`;
+  const signupKey = `pending-signup:${email}`;
+  let kvKey = loginKey;
+  let raw = await env.AUTH_KV.get(loginKey);
+  let isSignup = false;
+
+  if (!raw) {
+    raw = await env.AUTH_KV.get(signupKey);
+    kvKey = signupKey;
+    isSignup = true;
+  }
 
   if (!raw) {
     return json({ error: 'Code expired or not found. Request a new one.' }, 401, cors);
@@ -172,6 +188,13 @@ async function handleVerifyCode(request, env, cors) {
   // Code correct — self-destruct immediately
   await env.AUTH_KV.delete(kvKey);
 
+  // If this was a signup verification, create the user record now
+  if (isSignup) {
+    await env.AUTH_KV.put(`user:${email}`, JSON.stringify({
+      role: 'user', created: Date.now()
+    }));
+  }
+
   const role = await getRole(env, email);
   const token = await createSession(env, email, role);
 
@@ -183,7 +206,8 @@ async function handleVerifyCode(request, env, cors) {
    ═════════════════════════════════════════════════════════ */
 
 async function handleSignup(request, env, cors) {
-  const body = await request.json();
+  const body = await safeJson(request);
+  if (!body) return json({ error: 'Invalid request' }, 400, cors);
   const email = clean(body.email);
 
   if (!validEmail(email)) {
@@ -267,7 +291,8 @@ async function handleAppCode(request, env, cors) {
 }
 
 async function handleVerifyAppCode(request, env, cors) {
-  const body = await request.json();
+  const body = await safeJson(request);
+  if (!body) return json({ error: 'Invalid request' }, 400, cors);
   const email = clean(body.email);
   const entered = (body.code || '').trim().toUpperCase();
 
@@ -318,9 +343,15 @@ async function handleStaffAdd(request, env, cors) {
     return json({ error: 'Admin access required' }, 403, cors);
   }
 
-  const body = await request.json();
+  const body = await safeJson(request);
+  if (!body) return json({ error: 'Invalid request' }, 400, cors);
   const email = clean(body.email);
   if (!validEmail(email)) return json({ error: 'Invalid email' }, 400, cors);
+
+  // Don't let admin accidentally overwrite their own role
+  if (email === ADMIN_EMAIL) {
+    return json({ error: 'Cannot modify admin' }, 400, cors);
+  }
 
   await env.AUTH_KV.put(`user:${email}`, JSON.stringify({
     role: 'staff',
@@ -337,7 +368,8 @@ async function handleStaffRemove(request, env, cors) {
     return json({ error: 'Admin access required' }, 403, cors);
   }
 
-  const body = await request.json();
+  const body = await safeJson(request);
+  if (!body) return json({ error: 'Invalid request' }, 400, cors);
   const email = clean(body.email);
   if (!validEmail(email)) return json({ error: 'Invalid email' }, 400, cors);
 
@@ -413,8 +445,8 @@ function validEmail(email) {
 }
 
 function randomDigits(len) {
-  const arr = crypto.getRandomValues(new Uint32Array(1));
-  return String(arr[0] % Math.pow(10, len)).padStart(len, '0');
+  const bytes = crypto.getRandomValues(new Uint8Array(len));
+  return Array.from(bytes).map(b => b % 10).join('');
 }
 
 function randomAlphanumeric(len) {
@@ -459,21 +491,10 @@ async function createSession(env, email, role, source) {
 
 async function authRequired(request, env) {
   const authHeader = request.headers.get('Authorization') || '';
-  let token = '';
+  if (!authHeader.startsWith('Bearer ')) return null;
 
-  if (authHeader.startsWith('Bearer ')) {
-    token = authHeader.slice(7);
-  } else {
-    try {
-      const clone = request.clone();
-      const body = await clone.json();
-      token = body.token || '';
-    } catch (e) {
-      token = '';
-    }
-  }
-
-  if (!token) return null;
+  const token = authHeader.slice(7).trim();
+  if (!token || token.length !== 64) return null;
 
   const raw = await env.AUTH_KV.get(`session:${token}`);
   if (!raw) return null;
@@ -488,8 +509,8 @@ async function authRequired(request, env) {
 async function sendCodeEmail(env, toEmail, code, isSignup) {
   const fromAddr = 'codes@jaethetech.com';
   const subject = isSignup
-    ? `Welcome to JaeTheTech — your code: ${code}`
-    : `Your JaeTheTech login code: ${code}`;
+    ? 'Welcome to JaeTheTech — verify your email'
+    : 'Your JaeTheTech login code';
 
   const heading = isSignup ? 'Welcome to JaeTheTech' : 'Login Verification';
   const subtext = isSignup
@@ -562,6 +583,15 @@ async function sendRawEmail(env, from, to, subject, html) {
   } catch (err) {
     console.error('Email send error:', err);
     return false;
+  }
+}
+
+/* ── Safe JSON Parser ──────────────────────────────────── */
+async function safeJson(request) {
+  try {
+    return await request.json();
+  } catch {
+    return null;
   }
 }
 
