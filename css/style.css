@@ -5,19 +5,21 @@
 
 /* ── Tokens ──────────────────────────────────────────── */
 :root {
-  --bg:          #0e0e0e;
-  --bg2:         #141414;
-  --card:        #1a1a1a;
-  --card-hover:  #222;
-  --border:      #2a2a2a;
-  --border-hi:   #444;
+  --bg:          #0a0a0a;
+  --bg2:         #111;
+  --card:        #161616;
+  --card-hover:  #1c1c1c;
+  --border:      #222;
+  --border-hi:   #3a3a3a;
   --bright:      #f0f0f0;
-  --text:        #b0b0b0;
-  --muted:       #666;
+  --text:        #a8a8a8;
+  --muted:       #5a5a5a;
   --mono:        'SF Mono', 'Cascadia Code', Consolas, monospace;
   --sans:        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --r:           10px;
-  --sp:          .2s;
+  --r:           12px;
+  --sp:          .25s;
+  --glow:        0 0 0 1px rgba(255,255,255,.04);
+  --lift:        0 8px 30px rgba(0,0,0,.4);
 }
 
 /* ── Reset ───────────────────────────────────────────── */
@@ -36,8 +38,9 @@ body  {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  min-height: 100vh;
 }
-a     { color: var(--bright); text-decoration: none; transition: color var(--sp); }
+a     { color: var(--bright); text-decoration: none; transition: color var(--sp), opacity var(--sp); }
 a:hover { color: #fff; }
 img   { max-width: 100%; height: auto; display: block; }
 ul    { list-style: none; }
@@ -67,9 +70,9 @@ button, input, select, textarea {
 /* ═══ NAV ════════════════════════════════════════════════ */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(14, 14, 14, .88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(10, 10, 10, .92);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
   border-bottom: 1px solid var(--border);
   height: 60px;
 }
@@ -90,11 +93,18 @@ button, input, select, textarea {
   display: flex; gap: 24px; list-style: none;
 }
 .nav-links a {
-  font-size: 14px; color: var(--muted);
+  font-size: 13px; color: var(--muted);
   font-weight: 500; transition: color var(--sp);
+  position: relative;
 }
 .nav-links a:hover,
 .nav-links a.active { color: var(--bright); }
+.nav-links a.active::after {
+  content: ''; position: absolute;
+  bottom: -4px; left: 25%; right: 25%;
+  height: 2px; background: var(--bright);
+  border-radius: 1px;
+}
 
 .nav-toggle {
   display: none; background: none; border: none;
@@ -114,9 +124,9 @@ button, input, select, textarea {
 
 .hero::before {
   content: ''; position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(255,255,255,.03) 0%, transparent 70%);
+  top: -100px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 900px;
+  background: radial-gradient(circle, rgba(255,255,255,.04) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -130,14 +140,15 @@ button, input, select, textarea {
 .hero > *:not(.hero-grid) { position: relative; z-index: 1; }
 
 .hero h1 {
-  font-size: clamp(36px, 6vw, 60px); font-weight: 800;
-  color: var(--bright); letter-spacing: -1.5px;
-  line-height: 1.1; margin-bottom: 16px;
+  font-size: clamp(40px, 7vw, 72px); font-weight: 800;
+  color: var(--bright); letter-spacing: -2px;
+  line-height: 1.05; margin-bottom: 20px;
 }
 
 .hero-sub {
-  font-size: clamp(16px, 2.5vw, 20px); color: var(--muted);
-  max-width: 540px; margin-bottom: 36px;
+  font-size: clamp(16px, 2.5vw, 19px); color: var(--muted);
+  max-width: 520px; margin-bottom: 40px;
+  line-height: 1.6;
 }
 
 .hero-cta {
@@ -148,23 +159,28 @@ button, input, select, textarea {
 /* ═══ BUTTONS ════════════════════════════════════════════ */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 11px 26px; border-radius: var(--r);
-  font-size: 14px; font-weight: 600;
+  padding: 12px 28px; border-radius: var(--r);
+  font-size: 13px; font-weight: 600;
   cursor: pointer; transition: all var(--sp);
   border: 1px solid var(--border);
   background: var(--card); color: var(--bright);
+  letter-spacing: .2px;
 }
 .btn:hover {
   background: var(--card-hover);
   border-color: var(--border-hi);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--lift);
 }
 
 .btn-primary {
   background: var(--bright); color: var(--bg);
   border-color: var(--bright);
 }
-.btn-primary:hover { background: #fff; color: #000; }
+.btn-primary:hover {
+  background: #fff; color: #000;
+  box-shadow: 0 8px 30px rgba(255,255,255,.08);
+}
 
 /* ═══ SECTIONS ═══════════════════════════════════════════ */
 .section { padding: 90px 0; }
