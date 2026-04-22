@@ -834,6 +834,55 @@ button, input, select, textarea {
   font-size: 14px; color: var(--muted); margin-bottom: 32px;
 }
 
+.github-login-section {
+  margin-bottom: 24px;
+}
+
+.btn-github {
+  background: #24292e;
+  color: #ffffff;
+  border: 1px solid #30363d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color var(--sp), border-color var(--sp);
+}
+
+.btn-github:hover {
+  background: #2d3339;
+  border-color: #444c56;
+}
+
+.btn-github svg {
+  flex-shrink: 0;
+}
+
+.login-divider {
+  position: relative;
+  text-align: center;
+  margin: 24px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.login-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+.login-divider span {
+  background: var(--card);
+  padding: 0 12px;
+  position: relative;
+  z-index: 1;
+}
+
 .login-form { display: flex; flex-direction: column; gap: 12px; }
 
 .login-label {

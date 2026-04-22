@@ -33,6 +33,9 @@
   var errorEl    = document.getElementById('login-error');
   var spinnerEl  = document.getElementById('login-spinner');
 
+  /* ── DOM refs (GitHub) ──────────────────────────────── */
+  var githubBtn  = document.getElementById('github-login-btn');
+
   /* ── Tab refs ───────────────────────────────────────── */
   var tabLogin   = document.getElementById('tab-login');
   var tabSignup  = document.getElementById('tab-signup');
@@ -89,6 +92,15 @@
   if (session && window.location.pathname.indexOf('login') !== -1) {
     redirectForRole(session.role);
     return;
+  }
+
+  /* ── Check for error in URL ─────────────────────────── */
+  var urlParams = new URLSearchParams(window.location.search);
+  var errorParam = urlParams.get('error');
+  if (errorParam) {
+    showError(decodeURIComponent(errorParam));
+    // Clear the URL
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 
   /* ── API call helper ────────────────────────────────── */
@@ -191,6 +203,15 @@
           showSpinner(false);
           showError('Failed to resend. Try again.');
         });
+    });
+  }
+
+  /* ═══ GITHUB LOGIN ════════════════════════════════════ */
+  if (githubBtn) {
+    githubBtn.addEventListener('click', function () {
+      showSpinner(true);
+      // Redirect to GitHub OAuth
+      window.location.href = API + '/api/auth/github';
     });
   }
 

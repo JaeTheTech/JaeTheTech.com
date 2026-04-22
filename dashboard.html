@@ -12,7 +12,7 @@
   <!-- Nav -->
   <nav class="nav">
     <div class="container">
-      <a href="index.html" class="nav-brand"><span class="art-icon" style="width:20px;height:20px"><svg viewBox="0 0 20 20" fill="#f0f0f0" stroke="none"><polygon points="11,1 4,11 9,11 7,19 16,9 11,9"/></svg></span> JaeTheTech</a>
+      <a href="index.html" class="nav-brand"><span class="art-icon" style="width:20px;height:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="bolt4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#a855f7"/><stop offset="100%" style="stop-color:#22d3ee"/></linearGradient></defs><path d="M280 80L160 280h80l-40 152 160-200h-80z" fill="url(#bolt4)"/></svg></span> JaeTheTech</a>
       <button class="nav-toggle" aria-label="Menu">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
@@ -156,6 +156,40 @@
   <script src="js/auth.js"></script>
   <script src="js/scripts.js" defer></script>
   <script>
+    /* Check for token in URL (GitHub OAuth callback) */
+    (function () {
+      var urlParams = new URLSearchParams(window.location.search);
+      var token = urlParams.get('token');
+      if (token) {
+        // Clear the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Validate token with server
+        fetch('https://jaethetech.com/api/auth/session', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.valid) {
+            // Set session
+            var sessionData = {
+              ts: Date.now(),
+              ttl: 4 * 60 * 60 * 1000, // 4 hours
+              email: data.email,
+              token: token,
+              role: data.role
+            };
+            sessionStorage.setItem('jtt_auth', JSON.stringify(sessionData));
+          } else {
+            window.location.replace('login.html?error=' + encodeURIComponent('Invalid session'));
+          }
+        })
+        .catch(function () {
+          window.location.replace('login.html?error=' + encodeURIComponent('Connection error'));
+        });
+      }
+    })();
+
     /* Auth guard */
     var session = requireAuth();
 
