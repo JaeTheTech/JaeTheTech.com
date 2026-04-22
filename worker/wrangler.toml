@@ -13,3 +13,8 @@ zone_name = "jaethetech.com"
 
 [[send_email]]
 name = "SEND_EMAIL"
+
+# GitHub OAuth secrets
+[vars]
+GITHUB_CLIENT_ID = ""
+GITHUB_CLIENT_SECRET = ""

@@ -70,6 +70,10 @@ export default {
           case '/api/auth/verify-app-code':
             return await handleVerifyAppCode(request, env, corsHeaders);
 
+          /* ── GitHub OAuth routes ─────────────────────── */
+          case '/api/auth/github':
+            return await handleGitHubAuth(request, env, corsHeaders);
+
           /* ── Staff management (admin only) ──────────── */
           case '/api/staff/add':
             return await handleStaffAdd(request, env, corsHeaders);
@@ -86,8 +90,11 @@ export default {
 
       /* ── GET routes ─────────────────────────────────── */
       if (request.method === 'GET') {
-        if (url.pathname === '/api/auth/session') {
-          return await handleSessionCheck(request, env, corsHeaders);
+        switch (url.pathname) {
+          case '/api/auth/session':
+            return await handleSessionCheck(request, env, corsHeaders);
+          case '/api/auth/github/callback':
+            return await handleGitHubCallback(request, env, corsHeaders);
         }
       }
 
@@ -254,6 +261,192 @@ async function handleSignup(request, env, cors) {
   }
 
   return json({ ok: true, message: 'Verification code sent' }, 200, cors);
+}
+
+/* ═════════════════════════════════════════════════════════
+   AUTH: GitHub OAuth
+   ═════════════════════════════════════════════════════════ */
+
+async function handleGitHubAuth(request, env, cors) {
+  // Redirect to GitHub OAuth
+  const clientId = env.GITHUB_CLIENT_ID;
+  if (!clientId) {
+    return json({ error: 'GitHub OAuth not configured' }, 500, cors);
+  }
+
+  const state = crypto.randomUUID();
+  const baseUrl = getBaseUrl(request);
+  const redirectUri = `${baseUrl}/api/auth/github/callback`;
+
+  const githubUrl = `https://github.com/login/oauth/authorize?` + new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    scope: 'user:email',
+    state: state
+  });
+
+  // Store state for CSRF protection
+  await env.AUTH_KV.put(`github_state:${state}`, 'pending', { expirationTtl: 600 }); // 10 minutes
+
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': githubUrl,
+      'Cache-Control': 'no-cache'
+    }
+  });
+}
+
+async function handleGitHubCallback(request, env, cors) {
+  const url = new URL(request.url);
+  const code = url.searchParams.get('code');
+  const state = url.searchParams.get('state');
+  const error = url.searchParams.get('error');
+
+  if (error) {
+    return redirectToLogin('OAuth error: ' + error);
+  }
+
+  if (!code || !state) {
+    return redirectToLogin('Missing OAuth parameters');
+  }
+
+  // Verify state for CSRF protection
+  const stateKey = `github_state:${state}`;
+  const stateValid = await env.AUTH_KV.get(stateKey);
+  if (!stateValid) {
+    return redirectToLogin('Invalid OAuth state');
+  }
+  await env.AUTH_KV.delete(stateKey);
+
+  try {
+    // Exchange code for access token
+    const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': 'JaeTheTech-Auth'
+      },
+      body: new URLSearchParams({
+        client_id: env.GITHUB_CLIENT_ID,
+        client_secret: env.GITHUB_CLIENT_SECRET,
+        code: code,
+        redirect_uri: `${getBaseUrl(request)}/api/auth/github/callback`
+      })
+    });
+
+    const tokenData = await tokenResponse.json();
+    if (tokenData.error) {
+      console.error('GitHub token error:', tokenData);
+      return redirectToLogin('Failed to get access token');
+    }
+
+    const accessToken = tokenData.access_token;
+
+    // Get user info from GitHub
+    const userResponse = await fetch('https://api.github.com/user', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'JaeTheTech-Auth'
+      }
+    });
+
+    if (!userResponse.ok) {
+      console.error('GitHub user API error:', userResponse.status);
+      return redirectToLogin('Failed to get user info from GitHub');
+    }
+
+    const userData = await userResponse.json();
+    const githubId = userData.id;
+    const githubLogin = userData.login;
+
+    // Get user email (may be private)
+    let email = userData.email;
+    if (!email) {
+      const emailsResponse = await fetch('https://api.github.com/user/emails', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'User-Agent': 'JaeTheTech-Auth'
+        }
+      });
+      if (emailsResponse.ok) {
+        const emails = await emailsResponse.json();
+        const primaryEmail = emails.find(e => e.primary && e.verified);
+        email = primaryEmail ? primaryEmail.email : emails.find(e => e.verified)?.email;
+      }
+    }
+
+    if (!email) {
+      return redirectToLogin('Could not get verified email from GitHub');
+    }
+
+    // Check if user exists, create if not
+    let role = await getRole(env, email);
+    if (!role) {
+      // Auto-create account for GitHub users
+      await env.AUTH_KV.put(`user:${email}`, JSON.stringify({
+        role: 'user',
+        created: Date.now(),
+        githubId: githubId,
+        githubLogin: githubLogin,
+        source: 'github'
+      }));
+      role = 'user';
+    } else {
+      // Update existing user with GitHub info
+      const existing = await env.AUTH_KV.get(`user:${email}`);
+      if (existing) {
+        const data = JSON.parse(existing);
+        data.githubId = githubId;
+        data.githubLogin = githubLogin;
+        data.lastGithubLogin = Date.now();
+        await env.AUTH_KV.put(`user:${email}`, JSON.stringify(data));
+      }
+    }
+
+    // Create session
+    const sessionToken = await createSession(env, email, role, 'github');
+
+    // Redirect to dashboard with token
+    const baseUrl = getBaseUrl(request);
+    const frontendUrl = baseUrl.replace(/^https?:\/\/[^.]+\./, 'https://'); // Remove subdomain
+    const redirectUrl = `${frontendUrl}/dashboard.html?token=${sessionToken}`;
+
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': redirectUrl,
+        'Cache-Control': 'no-cache'
+      }
+    });
+
+  } catch (err) {
+    console.error('GitHub OAuth error:', err);
+    return redirectToLogin('Authentication failed');
+  }
+}
+
+function redirectToLogin(error) {
+  const loginUrl = `login.html?error=${encodeURIComponent(error)}`;
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': loginUrl
+    }
+  });
+}
+
+function getBaseUrl(request) {
+  const url = new URL(request.url);
+  // For production, always use https and main domain
+  if (url.hostname.includes('jaethetech.com')) {
+    return 'https://jaethetech.com';
+  }
+  // For development
+  return `${url.protocol}//${url.host}`;
 }
 
 /* ═════════════════════════════════════════════════════════
